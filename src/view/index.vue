@@ -14,6 +14,6 @@
   width: 100%;
   height: 100%;
   background-size: 100% 100%;
-  background-image: url("@/assets/image/bground.jpg");
+  background-image: url("@/assets/image/bground_mini.jpg");
 }
 </style>
