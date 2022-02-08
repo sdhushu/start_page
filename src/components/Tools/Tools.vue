@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import Sun from './Sun.vue';
+import Cal from './Cal.vue';
 
 // 声明属性值
 const listShow = ref(false)
@@ -63,7 +64,9 @@ const eyeClick = () => {
     <div class="sun" v-if="sunShow">
       <Sun></Sun>
     </div>
-    <div class="calendar" v-if="calShow"></div>
+    <div class="calendar" v-if="calShow">
+      <Cal></Cal>
+    </div>
   </div>
 </template>
 
@@ -214,6 +217,6 @@ const eyeClick = () => {
 .calendar {
   .sun();
   right: 0;
-  background-color: beige;
+  height: 130px;
 }
 </style>
