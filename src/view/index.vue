@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import Tools from '../components/Tools/Tools.vue';
 
 </script>
 
 <template>
   <div class="page">
-    <h1>首页 基础示例</h1>
+    <Tools></Tools>
   </div>
 </template>
 
