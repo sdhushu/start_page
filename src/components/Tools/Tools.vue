@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import Sun from './Sun.vue';
 import Cal from './Cal.vue';
+import Todolist from './Todolist.vue';
 
 // 声明属性值
 const listShow = ref(false)
@@ -39,66 +40,38 @@ const eyeClick = () => {
 
 <template>
   <!-- 创建todo-list容器 -->
-  <div id="todo-list">
+  <div id="tools">
     <!-- 创建list-bar容器 -->
-    <nav id="list-bar">
+    <nav id="tools-bar">
       <div id="calendar" @click="calClick">
-        <img src="../../assets/todolist_img/calendar.svg" />
+        <img src="../../assets/tools_img/calendar.svg" />
       </div>
       <div class="line"></div>
       <div id="sun" @click="sunClick">
-        <img src="../../assets/todolist_img/sun.svg" />
+        <img src="../../assets/tools_img/sun.svg" />
       </div>
       <div class="line"></div>
       <div id="task" @click="taskClick">
-        <img src="../../assets/todolist_img/task.svg" />
+        <img src="../../assets/tools_img/task.svg" />
       </div>
     </nav>
-    <!-- 创建待办容器 -->
+    <!-- 创建待办容器放入小组件 -->
     <ul class="list" v-if="listShow">
-      <div>
-        <img src="../../assets/todolist_img/eye.svg" @click="eyeClick" />
-        <div id="title">To-Do list</div>
-      </div>
+      <Todolist />
     </ul>
     <div class="sun" v-if="sunShow">
-      <Sun></Sun>
+      <Sun />
     </div>
     <div class="calendar" v-if="calShow">
-      <Cal></Cal>
+      <Cal />
     </div>
   </div>
 </template>
 
 
 <style scoped lang="less">
-// 设置todolist的title样式
-.list #title {
-  position: absolute;
-  width: 112px;
-  height: 28px;
-  right: 0;
-  top: 20px;
-
-  font-family: Roboto;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 24px;
-  line-height: 28px;
-  text-align: right;
-
-  color: #ffffff;
-
-  /* Inside auto layout */
-
-  flex: none;
-  order: 1;
-  flex-grow: 0;
-  margin: 0px 20px;
-}
-
 // 设置整体样式
-#todo-list {
+#tools {
   position: absolute;
   top: 65px;
   right: 48px;
@@ -134,20 +107,10 @@ const eyeClick = () => {
   order: 2;
   flex-grow: 0;
   margin: 24px 0px;
-  // 设置todolist标题图标样式
-  img {
-    position: absolute;
-    height: 20px;
-    width: 20px;
-    left: 16px;
-    top: 25px;
-    border-radius: 0px;
-    cursor: pointer;
-  }
 }
 // 设置顶部list-bar样式
-#list-bar {
-  /* tool_bar */
+#tools-bar {
+  /* tools_bar */
 
   /* Auto layout */
 
