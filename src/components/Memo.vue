@@ -18,7 +18,9 @@ let originData = reactive({
 
   modify_num: Number,  //记录点击的是哪个noteText
 
-  addshow: true  //加号标签是否显示
+  addshow: true,  //加号标签是否显示
+
+  ulHidden: false
 })
 
 //设置输出当前时间，并实时刷新
@@ -62,6 +64,7 @@ const save_quit = () => {
   if (!!originData.textdata) {
     originData.noteBooks.unshift(originData.textdata)
     originData.topValue = '196px'  //出现记事本的top值,传入空串addNote不下移
+    originData.ulHidden = true  //noteBooks有内容时，打开ul
   }
 }
 
@@ -107,6 +110,7 @@ const deleteNote = (index: any) => {
     originData.addshow = true
     originData.topValue = '116px'
     packuplist(event);
+    originData.ulHidden = false //删除最后一个li，将ul关闭
   }
   
 }
@@ -126,7 +130,7 @@ const packuplist = (event:any)=>{
   <!-- 当前时间 -->
   <div class="nowDate">{{ originData.nowData }}</div>
   <!-- 新插入的Note内容 -->
-  <ul class="noteText" @click="changehidden">
+  <ul class="noteText" @click="changehidden" v-show="originData.ulHidden">
     <li v-for="(item, index) in originData.noteBooks">
       {{ item }}
       <br />
