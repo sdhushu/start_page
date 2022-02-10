@@ -1,10 +1,12 @@
 <script setup lang="ts">
   import Memo from '@/components/Memo.vue'
+  import Hyperlink from '@/components/Hyperlink/Hyperlink.vue'
 </script>
 
 <template>
   <div class="page">
     <Memo></Memo>
+    <Hyperlink></Hyperlink>
   </div>
 </template>
 
