@@ -1,10 +1,10 @@
 <script setup lang="ts">
-
+  import Memo from '@/components/Memo.vue'
 </script>
 
 <template>
   <div class="page">
-    <h1>首页 基础示例</h1>
+    <Memo></Memo>
   </div>
 </template>
 
