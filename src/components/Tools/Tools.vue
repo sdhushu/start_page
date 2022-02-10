@@ -217,6 +217,6 @@ const eyeClick = () => {
 .calendar {
   .sun();
   right: 0;
-  height: 130px;
+  height: 150px;
 }
 </style>
