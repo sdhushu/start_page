@@ -54,6 +54,8 @@ onMounted(() => {
 //点击addNote
 const addNote = () => {
     originData.isshow = true
+    //初始化上一次textarea向textdata输入的值
+    originData.textdata = ''
 }
 //点击保存并推出
 const save_quit = () => {
