@@ -1,25 +1,17 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive } from 'vue';
 let originData = reactive({
   nowData: '',  //当前时间
   isshow: false,  //add窗口开关值，默认不展示
   textdata: '',  //获取textarea中的内容
-  noteBooks: [
-
-  ],
+  noteBooks:[] as string[],
   //表示addNote的top值
   topValue: '116px',
-
   hiddenNote: 'hidden',
-
   isModifyShow: false,
-
   transferStation: '',//中转修改内容
-
   modify_num: Number,  //记录点击的是哪个noteText
-
   addshow: true,  //加号标签是否显示
-
   ulHidden: false
 })
 
@@ -30,18 +22,17 @@ const currentTime = () => {
 }
 
 const formatDate = () => {
-  // console.log('执行了')
   //获取程序执行时的时间
   let data = new Date();
   let month = data.getMonth() + 1; //月
   let day = data.getDate(); //日
   let week = data.getDay(); //星期
   let weekArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-  let hour = data.getHours(); //时
+  let hour:any = data.getHours(); //时
   let moment = hour <= 12 ? "上午" : "下午"; //上/下午
   hour = hour <= 12 ? hour : hour - 12;
   hour = hour < 10 ? '0' + hour : hour; //时如果只有一位，则前面补零
-  let minute = data.getMinutes(); //分
+  let minute:any = data.getMinutes(); //分
   minute = minute < 10 ? "0" + minute : minute; // 如果只有一位，则前面补零
   originData.nowData = `${moment} ${hour}:${minute} ${weekArr[week]} ${month}月${day}日`;
 
@@ -60,7 +51,6 @@ const addNote = () => {
 //点击保存并推出
 const save_quit = () => {
   originData.isshow = false
-  console.log(originData.textdata)
   //将textData中的数据迁移到noteBooks中，以供展示
   //判断textdata是否为空串,为空串时，不将其传入noteBooks
   if (!!originData.textdata) {
@@ -73,7 +63,6 @@ const save_quit = () => {
 //将noteText全部显示出
 const changehidden = () => {
   originData.hiddenNote = 'visible'
-  console.log(originData.topValue)
   originData.addshow = false  //展开note内容时，关闭添加按钮
   // //新的top高度
   // let newtopValue = parseInt(originData.topValue)+(originData.noteBooks.length - 1)*80+'px'
@@ -89,7 +78,6 @@ const changehidden = () => {
 const modifyNote = (item: any, index: any) => {
   originData.isModifyShow = true  //打开修改框
   originData.transferStation = item  //将相应的noteText中的内容传入transferStation
-  console.log(originData.transferStation)
   originData.modify_num = index
 }
 //修改内容——确定修改完成
@@ -179,7 +167,7 @@ const packuplist = (event:any)=>{
   justify-content: center; //主轴方向空白内容分配
   align-items: center; //辅轴方向空白内容分配
 
-  font-family: Roboto;
+  font-family: Roboto,serif;
   font-size: 24px;
   line-height: 28px;
 
@@ -191,7 +179,7 @@ const packuplist = (event:any)=>{
   border-radius: 29px;
   color: #fff;
   background-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(200px);
 }
 .addNote {
@@ -202,7 +190,7 @@ const packuplist = (event:any)=>{
   left: 48px;
   border-radius: 15px;
   background-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   .r {
     position: absolute;
     width: 6px;
@@ -239,7 +227,7 @@ const packuplist = (event:any)=>{
     border-radius: 5px; //边框圆角
     border: 1px solid #fff; //边框
     background-color: rgba(255, 255, 255, 0.7);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); //textarea阴影
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25); //textarea阴影
     outline: none; //取出获取焦点时的边框
     resize: none; //控制文本区是否可调整大小
   }
@@ -266,7 +254,7 @@ const packuplist = (event:any)=>{
     height: 64px;
     border-radius: 15px;
     background-color: rgba(255, 255, 255, 0.3);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 
     margin-bottom: 16px;
 
@@ -274,8 +262,7 @@ const packuplist = (event:any)=>{
     justify-content: center;
     align-items: center;
     padding-left: 8px;
-
-    font-family: Roboto;
+    font-family: Roboto,serif;
     font-style: normal;
     font-weight: normal;
     font-size: 24px;
@@ -284,7 +271,6 @@ const packuplist = (event:any)=>{
     overflow: hidden;
     //设置li中button按钮的样式
     button {
-      flex: right;
       background-color: transparent;
       color: #fff;
       border: 1px solid #fff;
@@ -310,7 +296,7 @@ const packuplist = (event:any)=>{
     border-radius: 5px; //边框圆角
     border: 1px solid #fff; //边框
     background-color: rgba(255, 255, 255, 0.7);
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); //textarea阴影
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25); //textarea阴影
     outline: none; //取出获取焦点时的边框
     resize: none; //控制文本区是否可调整大小
   }
