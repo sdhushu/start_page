@@ -4,10 +4,9 @@ let originData = reactive({
   nowData: '',  //当前时间
   isshow: false,  //add窗口开关值，默认不展示
   textdata: '',  //获取textarea中的内容
-  noteBooks:[] as string[],
+  noteBooks: [] as string[],
   //表示addNote的top值
   topValue: '116px',
-  hiddenNote: 'hidden',
   isModifyShow: false,
   transferStation: '',//中转修改内容
   modify_num: Number,  //记录点击的是哪个noteText
@@ -15,8 +14,9 @@ let originData = reactive({
   ulHidden: false,
   //本地存储localstorage
   localStorage: [] as string[],
-  details:'',  //显示li详细信息
-  detailsShow:false //li详细信息展示框默认关闭
+  details: '',  //显示li详细信息
+  detailsShow: false, //li详细信息展示框默认关闭
+  listHidden: false
 })
 
 //设置输出当前时间，并实时刷新
@@ -32,11 +32,11 @@ const formatDate = () => {
   let day = data.getDate(); //日
   let week = data.getDay(); //星期
   let weekArr = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-  let hour:any = data.getHours(); //时
+  let hour: any = data.getHours(); //时
   let moment = hour <= 12 ? "上午" : "下午"; //上/下午
   hour = hour <= 12 ? hour : hour - 12;
   hour = hour < 10 ? '0' + hour : hour; //时如果只有一位，则前面补零
-  let minute:any = data.getMinutes(); //分
+  let minute: any = data.getMinutes(); //分
   minute = minute < 10 ? "0" + minute : minute; // 如果只有一位，则前面补零
   originData.nowData = `${moment} ${hour}:${minute} ${weekArr[week]} ${month}月${day}日`;
 
@@ -48,9 +48,9 @@ onMounted(() => {
 
 //点击addNote
 const addNote = () => {
-    originData.isshow = true
-    //初始化上一次textarea向textdata输入的值
-    originData.textdata = ''
+  originData.isshow = true
+  //初始化上一次textarea向textdata输入的值
+  originData.textdata = ''
 }
 //点击保存并推出
 const save_quit = () => {
@@ -62,13 +62,6 @@ const save_quit = () => {
     originData.topValue = '196px'  //出现记事本的top值,传入空串addNote不下移
     originData.ulHidden = true  //noteBooks有内容时，打开ul
   }
-}
-
-//将noteText全部显示出
-const changehidden = () => {
-  originData.hiddenNote = 'auto'
-  originData.addshow = false  //展开note内容时，关闭添加按钮
-  
 }
 //修改内容——修改ing
 const modifyNote = (item: any, index: any) => {
@@ -89,35 +82,42 @@ const save_modify = (index: any) => {
 const deleteNote = (index: any) => {
   // originData.noteBooks.splice(index, 1)
 
-  if(originData.noteBooks.length != 1){
+  if (originData.noteBooks.length != 1) {
     originData.noteBooks.splice(index, 1)
-  }else{
+  } else {
     originData.noteBooks.splice(index, 1)
     originData.addshow = true
     originData.topValue = '116px'
     packuplist(event);
     originData.ulHidden = false //删除最后一个li，将ul关闭
   }
-  
+
 }
 
 //收起列表
-const packuplist = (event:any)=>{
-  originData.hiddenNote = 'hidden'
+const packuplist = (event: any) => {
+  // originData.hiddenNote = 'hidden'
   //阻止冒泡
   event.cancelBubble = true
   //将addNote显示出
   originData.addshow = true
+  originData.listHidden = false
 }
 
 //双击li展示全文
-const expandTheText = (item:any)=>{
+const expandTheText = (item: any) => {
   originData.detailsShow = true
   originData.details = item
 }
 //点击关闭li详情
-const collapseDetails = ()=>{
+const collapseDetails = () => {
   originData.detailsShow = false
+}
+//点击静态展示显示list
+const displayList = () => {
+  // originData.hiddenNote = 'visible'
+  originData.addshow = false  //展开note内容时，关闭添加按钮
+  originData.listHidden = true
 }
 </script>
 
@@ -125,7 +125,13 @@ const collapseDetails = ()=>{
   <!-- 当前时间 -->
   <div class="nowDate">{{ originData.nowData }}</div>
   <!-- 新插入的Note内容 -->
-  <ul class="noteText" @click="changehidden" v-show="originData.ulHidden">
+  <!-- 静态展示 -->
+  <div
+    class="staticPresentation"
+    @click="displayList"
+    v-show="originData.ulHidden"
+  >{{ originData.noteBooks[0] }}</div>
+  <ul class="noteText" v-show="originData.listHidden">
     <li v-for="(item, index) in originData.noteBooks" @dblclick="expandTheText(item)">
       {{ item }}
       <br />
@@ -133,7 +139,9 @@ const collapseDetails = ()=>{
       <button class="btn-del" @click="deleteNote(index)">删除</button>
     </li>
     <!-- 收起note列表 -->
-    <li><button class="cancelBubble-btn" v-show="!originData.addshow" @click="packuplist">收起</button></li>
+    <li>
+      <button class="cancelBubble-btn" v-show="!originData.addshow" @click="packuplist">收起</button>
+    </li>
   </ul>
   <!-- 添加note -->
   <div id="add" class="addNote" @click="addNote" v-show="originData.addshow">
@@ -153,16 +161,15 @@ const collapseDetails = ()=>{
   </div>
   <!-- 修改框 -->
   <div class="modify" v-show="originData.isModifyShow">
-    <textarea
-      class="modify_textarea"
-      rows="4"
-      v-model="originData.transferStation"
-    ></textarea>
-    <br>
+    <textarea class="modify_textarea" rows="4" v-model="originData.transferStation"></textarea>
+    <br />
     <button class="modify_button" @click="save_modify(originData.modify_num)">保存修改</button>
   </div>
   <!-- 展示li详细内容 -->
-  <div class='detailsShow' v-show="originData.detailsShow">{{originData.details}}<button @click="collapseDetails">×</button></div>
+  <div class="detailsShow" v-show="originData.detailsShow">
+    {{ originData.details }}
+    <button @click="collapseDetails">×</button>
+  </div>
 </template>
 
 
@@ -173,7 +180,7 @@ const collapseDetails = ()=>{
   justify-content: center; //主轴方向空白内容分配
   align-items: center; //辅轴方向空白内容分配
 
-  font-family: Roboto,serif;
+  font-family: Roboto, serif;
   font-size: 24px;
   line-height: 28px;
 
@@ -248,13 +255,14 @@ const collapseDetails = ()=>{
 }
 .noteText {
   position: absolute;
-  width: 542px;
-  height: 64px;
+  width: 560px;
+  max-height: 150px;
   left: 48px;
   top: 116px;
   border-radius: 15px;
   //多余的不显示
-  overflow: v-bind("originData.hiddenNote");
+  overflow: auto;
+  background-color: black;
   li:not(:last-of-type) {
     width: 416px;
     height: 48px;
@@ -264,7 +272,7 @@ const collapseDetails = ()=>{
 
     margin-bottom: 16px;
 
-    position: relative;//为按钮开启相对定位
+    position: relative; //为按钮开启相对定位
 
     //设置单行显示，多余显示省略号
     display: inline-block;
@@ -273,10 +281,10 @@ const collapseDetails = ()=>{
     // align-items: center;  //辅轴方向空白分配
     //内容区大小
     padding-left: 16px;
-    padding-right: 110px; 
+    padding-right: 110px;
     padding-top: 16px;
     // 字体
-    font-family: Roboto,serif;
+    font-family: Roboto, serif;
     font-style: normal;
     font-weight: normal;
     font-size: 24px;
@@ -292,14 +300,16 @@ const collapseDetails = ()=>{
       border-radius: 3px;
       top: 22px;
     }
-    .btn-modify{
+    .btn-modify {
       right: 64px;
     }
-    .btn-del{
+    .btn-del {
       right: 16px;
     }
   }
-  .cancelBubble-btn{
+  .cancelBubble-btn {
+    position: absolute;
+    left: 280px;
     background-color: rgba(255, 255, 255, 0.3);
     color: #fff;
     border: 1px solid #fff;
@@ -331,7 +341,7 @@ const collapseDetails = ()=>{
     border-radius: 3px;
   }
 }
-.detailsShow{
+.detailsShow {
   width: 300px;
   min-height: 16px;
   background-color: #fff;
@@ -341,11 +351,11 @@ const collapseDetails = ()=>{
   left: 48px;
   top: 116px;
   //自动换行
-  word-wrap:break-word;
+  word-wrap: break-word;
   color: black;
   padding: 16px;
-  padding-bottom:34px ;
-  button{
+  padding-bottom: 34px;
+  button {
     position: absolute;
     background-color: rgba(255, 255, 255, 0.3);
     color: black;
@@ -355,5 +365,33 @@ const collapseDetails = ()=>{
     border-radius: 3px;
     font-size: 16px;
   }
+}
+//静态展示li
+.staticPresentation {
+  width: 416px;
+  height: 48px;
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+
+  position: absolute; 
+  left: 48px;
+  top: 116px;
+
+  //设置单行显示，多余显示省略号
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  //内容区大小
+  padding-left: 16px;
+  padding-right: 110px;
+  padding-top: 16px;
+  // 字体
+  font-family: Roboto, serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  color: #fff;
 }
 </style>
