@@ -12,7 +12,10 @@ let originData = reactive({
   transferStation: '',//中转修改内容
   modify_num: Number,  //记录点击的是哪个noteText
   addshow: true,  //加号标签是否显示
-  ulHidden: false
+  ulHidden: false,
+  //本地存储localstorage
+  localStorage: [] as string[]
+  
 })
 
 //设置输出当前时间，并实时刷新
@@ -114,6 +117,7 @@ const packuplist = (event:any)=>{
   originData.addshow = true
 }
 
+
 </script>
 
 <template>
@@ -124,11 +128,11 @@ const packuplist = (event:any)=>{
     <li v-for="(item, index) in originData.noteBooks">
       {{ item }}
       <br />
-      <button @click="modifyNote(item, index)">修改</button>
-      <button @click="deleteNote(index)">删除</button>
+      <button class="btn-modify" @click="modifyNote(item, index)">修改</button>
+      <button class="btn-del" @click="deleteNote(index)">删除</button>
     </li>
     <!-- 收起note列表 -->
-    <button class="cancelBubble-btn" v-show="!originData.addshow" @click="packuplist">收起</button>
+    <li><button class="cancelBubble-btn" v-show="!originData.addshow" @click="packuplist">收起</button></li>
   </ul>
   <!-- 添加note -->
   <div id="add" class="addNote" @click="addNote" v-show="originData.addshow">
@@ -136,10 +140,9 @@ const packuplist = (event:any)=>{
     <i class="r"></i>
   </div>
   <!-- addNote输入框 -->
-  <div class="mask" teleport="html" v-show="originData.isshow">
+  <div class="mask" v-show="originData.isshow">
     <textarea
       class="textarea"
-      type="text"
       rows="4"
       v-model.lazy="originData.textdata"
       placeholder="Writing your thoughts."
@@ -249,19 +252,27 @@ const packuplist = (event:any)=>{
   border-radius: 15px;
   //多余的不显示
   overflow: v-bind("originData.hiddenNote");
-  li {
-    width: 542px;
-    height: 64px;
+  li:not(:last-of-type) {
+    width: 416px;
+    height: 48px;
     border-radius: 15px;
     background-color: rgba(255, 255, 255, 0.3);
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
 
     margin-bottom: 16px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-left: 8px;
+    position: relative;//为按钮开启相对定位
+
+    //设置单行显示，多余显示省略号
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    // align-items: center;  //辅轴方向空白分配
+    //内容区大小
+    padding-left: 16px;
+    padding-right: 110px; 
+    padding-top: 16px;
+    // 字体
     font-family: Roboto,serif;
     font-style: normal;
     font-weight: normal;
@@ -271,10 +282,18 @@ const packuplist = (event:any)=>{
     overflow: hidden;
     //设置li中button按钮的样式
     button {
+      position: absolute;
       background-color: transparent;
       color: #fff;
       border: 1px solid #fff;
       border-radius: 3px;
+      top: 22px;
+    }
+    .btn-modify{
+      right: 64px;
+    }
+    .btn-del{
+      right: 16px;
     }
   }
   .cancelBubble-btn{
