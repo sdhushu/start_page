@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { defineProps,defineEmits } from "vue";
+import {defineProps, defineEmits, ref} from "vue";
+import ThemeBlock from './ThemeBlock.vue'
+import Loading from './Loading.vue'
 defineProps({
   flag: {
     type: Boolean
@@ -8,6 +10,15 @@ defineProps({
 const emit = defineEmits(['update:flag'])
 const CloseHandle = () => {
   emit('update:flag',false)
+}
+let loading = ref(false)
+const ChangeTheme = (num:number) => {
+  console.log('点击了',num)
+  loading.value = true
+  setTimeout(()=>{
+    loading.value = false
+    document.getElementsByClassName('page')[0]!.className = `theme${num}`
+  },2000)
 }
 </script>
 
@@ -32,12 +43,21 @@ const CloseHandle = () => {
         </path>
       </svg>
     </div>
+    <div class="BlockWarp">
+      <ThemeBlock @click="ChangeTheme(1)"></ThemeBlock>
+      <ThemeBlock></ThemeBlock>
+      <ThemeBlock></ThemeBlock>
+      <ThemeBlock></ThemeBlock>
+      <ThemeBlock></ThemeBlock>
+      <ThemeBlock></ThemeBlock>
+    </div>
   </div>
+  <Loading v-if="loading"></Loading>
 </template>
 
 <style scoped lang="less">
 .Dialog {
-  width: 40%;
+  width: 50%;
   height: 60%;
   background-color: #ffffff;
   position: absolute;
@@ -45,7 +65,7 @@ const CloseHandle = () => {
   top: 50%;
   transform: translate(-50%,-50%);
   border-radius: 30px;
-  opacity: 0.5;
+  opacity: 0.9;
   .CloseIcon {
     position: absolute;
     right: 20px;
@@ -54,6 +74,16 @@ const CloseHandle = () => {
       transition: 1s;
       transform: rotate(360deg);
     }
+  }
+  .BlockWarp {
+    width: 100%;
+    height: 85%;
+    position: absolute;
+    bottom: 0;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
   }
 }
 </style>
