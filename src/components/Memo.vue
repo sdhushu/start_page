@@ -14,8 +14,9 @@ let originData = reactive({
   addshow: true,  //加号标签是否显示
   ulHidden: false,
   //本地存储localstorage
-  localStorage: [] as string[]
-  
+  localStorage: [] as string[],
+  details:'',  //显示li详细信息
+  detailsShow:false //li详细信息展示框默认关闭
 })
 
 //设置输出当前时间，并实时刷新
@@ -65,17 +66,9 @@ const save_quit = () => {
 
 //将noteText全部显示出
 const changehidden = () => {
-  originData.hiddenNote = 'visible'
+  originData.hiddenNote = 'auto'
   originData.addshow = false  //展开note内容时，关闭添加按钮
-  // //新的top高度
-  // let newtopValue = parseInt(originData.topValue)+(originData.noteBooks.length - 1)*80+'px'
-  // console.log(newtopValue)
-  // //将addNote键下移
-  // if(originData.topValue != newtopValue){
-  //   originData.topValue = newtopValue
-  // }
-  // console.log(originData.topValue)
-  // console.log(newtopValue)
+  
 }
 //修改内容——修改ing
 const modifyNote = (item: any, index: any) => {
@@ -117,7 +110,15 @@ const packuplist = (event:any)=>{
   originData.addshow = true
 }
 
-
+//双击li展示全文
+const expandTheText = (item:any)=>{
+  originData.detailsShow = true
+  originData.details = item
+}
+//点击关闭li详情
+const collapseDetails = ()=>{
+  originData.detailsShow = false
+}
 </script>
 
 <template>
@@ -125,7 +126,7 @@ const packuplist = (event:any)=>{
   <div class="nowDate">{{ originData.nowData }}</div>
   <!-- 新插入的Note内容 -->
   <ul class="noteText" @click="changehidden" v-show="originData.ulHidden">
-    <li v-for="(item, index) in originData.noteBooks">
+    <li v-for="(item, index) in originData.noteBooks" @dblclick="expandTheText(item)">
       {{ item }}
       <br />
       <button class="btn-modify" @click="modifyNote(item, index)">修改</button>
@@ -160,6 +161,8 @@ const packuplist = (event:any)=>{
     <br>
     <button class="modify_button" @click="save_modify(originData.modify_num)">保存修改</button>
   </div>
+  <!-- 展示li详细内容 -->
+  <div class='detailsShow' v-show="originData.detailsShow">{{originData.details}}<button @click="collapseDetails">×</button></div>
 </template>
 
 
@@ -326,6 +329,31 @@ const packuplist = (event:any)=>{
     border: 1px solid #fff;
     right: 0;
     border-radius: 3px;
+  }
+}
+.detailsShow{
+  width: 300px;
+  min-height: 16px;
+  background-color: #fff;
+  border: 1px solid #fff;
+  border-radius: 15px;
+  position: absolute;
+  left: 48px;
+  top: 116px;
+  //自动换行
+  word-wrap:break-word;
+  color: black;
+  padding: 16px;
+  padding-bottom:34px ;
+  button{
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: black;
+    border: 1px solid black;
+    right: 8px;
+    bottom: 8px;
+    border-radius: 3px;
+    font-size: 16px;
   }
 }
 </style>
