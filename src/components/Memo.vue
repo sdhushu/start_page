@@ -124,6 +124,9 @@ const rightClick = (item:any, index:any, event:any)=>{
   originData.itemTransition = item
   originData.indexTransition = index
   originData.rightMenuShow = true
+  console.log(event)
+  document.getElementById('rightMenu')!.style.top = event.clientY + 'px'
+  document.getElementById('rightMenu')!.style.left = event.clientX + 'px'
 }
 //点击修改或删除、没有选择删除或修改点击其他部位，关闭rightMenu
 document.addEventListener('click',()=>{
@@ -142,7 +145,7 @@ document.addEventListener('click',()=>{
     v-show="originData.ulHidden"
   >{{ originData.noteBooks[0] }}</div>
   <ul class="noteText" v-show="originData.listHidden">
-    <li v-for="(item, index) in originData.noteBooks" @dblclick="expandTheText(item)" @contextmenu.prevent="rightClick(item, index,event)">
+    <li v-for="(item, index) in originData.noteBooks" @dblclick="expandTheText(item)" @contextmenu.prevent="rightClick(item, index,$event)">
       {{ item }}
     </li>
     <!-- 收起note列表 -->
