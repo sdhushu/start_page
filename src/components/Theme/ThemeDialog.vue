@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {defineProps, defineEmits, ref, onMounted} from "vue";
+import {defineProps, defineEmits, ref, onMounted, reactive} from "vue";
 import ThemeBlock from './ThemeBlock.vue'
 import Loading from './Loading.vue'
 defineProps({
@@ -13,19 +13,73 @@ const CloseHandle = () => {
 }
 let loading = ref(false)
 let loadText = ref(false)
-let dataText = ref([1,2,3,4,5,6,7])
+let dataText = reactive([
+  {
+    id: 1,
+    title: '城市晚霞',
+    path:'/src/assets/image/8d92efcdb0007a3af8e277731bcb561b.jpg'
+  },
+  {
+    id: 2,
+    title: '慵懒少女',
+    path:'/src/assets/theme/2.jpg'
+  },
+  {
+    id: 3,
+    title: '湖光山色',
+    path:'/src/assets/theme/3.jpg'
+  },
+  {
+    id: 4,
+    title: '绿色护眼',
+    path:'/src/assets/theme/4.jpg'
+  },
+  {
+    id: 5,
+    title: '大雄和小伙伴',
+    path:'/src/assets/theme/5.jpg'
+  },
+  {
+    id: 6,
+    title: '虎年大吉',
+    path:'/src/assets/theme/6.jpg'
+  },
+  {
+    id: 7,
+    title: '山海与你',
+    path:'/src/assets/theme/7.jpg'
+  }
+])
 onMounted(()=>{
   document.getElementById('page')!.className = `theme`
   const BlockEle = document.getElementsByClassName('BlockWarp')[0]
   BlockEle.addEventListener('scroll',()=>{
     if(BlockEle.scrollTop+BlockEle.clientHeight+1 >= BlockEle.scrollHeight) {
-      loadText.value = true
-      loading.value = true
-      setTimeout(()=>{
-        dataText.value.push(8,9,10)
-        loadText.value = false
-        loading.value = false
-      },1500)
+      if (dataText.length < 10) {
+        loadText.value = true
+        loading.value = true
+        setTimeout(()=>{
+          dataText.push(
+              {
+                id:8,
+                title: '逢考必过',
+                path: '/src/assets/theme/8.jpg'
+              },
+              {
+                id:9,
+                title: '卷式他们',
+                path: '/src/assets/theme/9.jpg'
+              },
+              {
+                id:10,
+                title: '虎年大吉',
+                path: '/src/assets/theme/10.jpg'
+              }
+          )
+          loadText.value = false
+          loading.value = false
+        },1500)
+      }
     }
   })
 })
@@ -64,9 +118,12 @@ const ChangeTheme = (num:number) => {
       </svg>
     </div>
     <div class="BlockWarp" ref="BlockEle">
-      <ThemeBlock @click="ChangeTheme(item)" v-for="item in dataText"></ThemeBlock>
+      <ThemeBlock @click="ChangeTheme(item.id)" v-for="item in dataText" :src="item.path" :text="item.title"></ThemeBlock>
       <div class="LoadText" v-show="loadText">
         <p>下滑加载更多数据</p>
+      </div>
+      <div class="LoadText" v-show="!loadText">
+        <p>数据已全部加载完成</p>
       </div>
     </div>
   </div>

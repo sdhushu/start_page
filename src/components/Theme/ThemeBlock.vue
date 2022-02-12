@@ -1,14 +1,23 @@
 <script setup lang="ts">
+import {defineProps} from "vue";
 
+defineProps({
+  src: {
+    type:String
+  },
+  text: {
+    type: String
+  }
+})
 </script>
 
 <template>
   <div class="block">
     <div class="up">
-      <img src="/src/assets/image/8d92efcdb0007a3af8e277731bcb561b.jpg" alt="主题缩略图" class="img">
+      <img :src="src" alt="主题缩略图" class="img">
     </div>
     <br>
-    <h1>主题名称</h1>
+    <h1>{{text}}</h1>
   </div>
 </template>
 
