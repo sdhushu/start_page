@@ -16,7 +16,11 @@ let originData = reactive({
   localStorage: [] as string[],
   details: '',  //显示li详细信息
   detailsShow: false, //li详细信息展示框默认关闭
-  listHidden: false
+  listHidden: false,
+
+  itemTransition:'',
+  indexTransition:Number,
+  rightMenuShow:false
 })
 
 //设置输出当前时间，并实时刷新
@@ -80,8 +84,6 @@ const save_modify = (index: any) => {
 
 //删除该内容
 const deleteNote = (index: any) => {
-  // originData.noteBooks.splice(index, 1)
-
   if (originData.noteBooks.length != 1) {
     originData.noteBooks.splice(index, 1)
   } else {
@@ -91,12 +93,11 @@ const deleteNote = (index: any) => {
     packuplist(event);
     originData.ulHidden = false //删除最后一个li，将ul关闭
   }
-
+  originData.rightMenuShow = false //防止删除最后一个后无法冒泡
 }
 
 //收起列表
 const packuplist = (event: any) => {
-  // originData.hiddenNote = 'hidden'
   //阻止冒泡
   event.cancelBubble = true
   //将addNote显示出
@@ -115,10 +116,19 @@ const collapseDetails = () => {
 }
 //点击静态展示显示list
 const displayList = () => {
-  // originData.hiddenNote = 'visible'
   originData.addshow = false  //展开note内容时，关闭添加按钮
   originData.listHidden = true
 }
+//右键点击修改
+const rightClick = (item:any, index:any, event:any)=>{
+  originData.itemTransition = item
+  originData.indexTransition = index
+  originData.rightMenuShow = true
+}
+//点击修改或删除、没有选择删除或修改点击其他部位，关闭rightMenu
+document.addEventListener('click',()=>{
+  originData.rightMenuShow = false
+},false)
 </script>
 
 <template>
@@ -132,11 +142,8 @@ const displayList = () => {
     v-show="originData.ulHidden"
   >{{ originData.noteBooks[0] }}</div>
   <ul class="noteText" v-show="originData.listHidden">
-    <li v-for="(item, index) in originData.noteBooks" @dblclick="expandTheText(item)">
+    <li v-for="(item, index) in originData.noteBooks" @dblclick="expandTheText(item)" @contextmenu.prevent="rightClick(item, index,event)">
       {{ item }}
-      <br />
-      <button class="btn-modify" @click="modifyNote(item, index)">修改</button>
-      <button class="btn-del" @click="deleteNote(index)">删除</button>
     </li>
     <!-- 收起note列表 -->
     <li>
@@ -170,6 +177,11 @@ const displayList = () => {
     {{ originData.details }}
     <button @click="collapseDetails">×</button>
   </div>
+  <!-- 右键菜单 -->
+  <ul id="rightMenu" v-show="originData.rightMenuShow">
+    <li @click="modifyNote(originData.itemTransition, originData.indexTransition)">修改</li>
+    <li @click="deleteNote(originData.indexTransition)">删除</li>
+  </ul>
 </template>
 
 
@@ -255,34 +267,31 @@ const displayList = () => {
 }
 .noteText {
   position: absolute;
-  width: 560px;
-  max-height: 150px;
-  left: 48px;
+  min-height: 110px;
+  max-height: 250px;
+  left: 64px;
   top: 116px;
   border-radius: 15px;
+  
+  // display: flex;
+  // flex-direction: column;
   //多余的不显示
   overflow: auto;
   background-color: black;
   li:not(:last-of-type) {
-    width: 416px;
-    height: 48px;
+    //内容区大小
+    padding: 16px;
+    width: 510px;
+    line-height: 32px;
+
     border-radius: 15px;
     background-color: rgba(255, 255, 255, 0.3);
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-
     margin-bottom: 16px;
-
     position: relative; //为按钮开启相对定位
-
-    //设置单行显示，多余显示省略号
-    display: inline-block;
+    //多余显示省略号
     overflow: hidden;
     text-overflow: ellipsis;
-    // align-items: center;  //辅轴方向空白分配
-    //内容区大小
-    padding-left: 16px;
-    padding-right: 110px;
-    padding-top: 16px;
     // 字体
     font-family: Roboto, serif;
     font-style: normal;
@@ -290,7 +299,6 @@ const displayList = () => {
     font-size: 24px;
     line-height: 28px;
     color: #fff;
-    overflow: hidden;
     //设置li中button按钮的样式
     button {
       position: absolute;
@@ -348,7 +356,7 @@ const displayList = () => {
   border: 1px solid #fff;
   border-radius: 15px;
   position: absolute;
-  left: 48px;
+  left: 200px;
   top: 116px;
   //自动换行
   word-wrap: break-word;
@@ -368,30 +376,45 @@ const displayList = () => {
 }
 //静态展示li
 .staticPresentation {
-  width: 416px;
-  height: 48px;
+  //内容区大小
+  padding: 16px;
+  width: 510px;
+  line-height: 32px;
+  // 边框及背景
   border-radius: 15px;
   background-color: rgba(255, 255, 255, 0.3);
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-
+  //位置
   position: absolute; 
   left: 48px;
   top: 116px;
-
   //设置单行显示，多余显示省略号
   display: inline-block;
   overflow: hidden;
-  text-overflow: ellipsis;
-
-  //内容区大小
-  padding-left: 16px;
-  padding-right: 110px;
-  padding-top: 16px;
+  text-overflow: ellipsis; 
   // 字体
   font-family: Roboto, serif;
   font-style: normal;
   font-weight: normal;
   font-size: 24px;
   color: #fff;
+}
+#rightMenu{
+  background-color: #fff;
+  width: 40px;
+  height: 50px;
+  border-radius: 3px;
+  overflow: hidden;
+  //开启定位，为右键点击处为rightMenu位置做铺垫
+  position: absolute;
+  li{
+    width: 100%;
+    line-height: 24px;
+    font-size: 16px;
+    padding-left: 3px;
+  }
+  li:not(:last-of-type){
+    border-bottom: 1px black solid;
+  }
 }
 </style>
