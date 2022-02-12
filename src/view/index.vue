@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <div class="page">
+  <div id="page">
     <Memo></Memo>
     <Hyperlink></Hyperlink>
     <Wallpaper></Wallpaper>
@@ -14,10 +14,9 @@
 
 
 <style scoped lang="less">
-.page {
+#page {
   width: 100%;
   height: 100%;
   background-size: 100% 100%;
-  background-image: url("@/assets/image/bground_mini.jpg");
 }
 </style>

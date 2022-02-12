@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {defineProps, defineEmits, ref} from "vue";
+import {defineProps, defineEmits, ref, onMounted} from "vue";
 import ThemeBlock from './ThemeBlock.vue'
 import Loading from './Loading.vue'
 defineProps({
@@ -12,14 +12,34 @@ const CloseHandle = () => {
   emit('update:flag',false)
 }
 let loading = ref(false)
+let loadText = ref(false)
+let dataText = ref([1,2,3,4,5,6,7])
+onMounted(()=>{
+  document.getElementById('page')!.className = `theme`
+  const BlockEle = document.getElementsByClassName('BlockWarp')[0]
+  BlockEle.addEventListener('scroll',()=>{
+    if(BlockEle.scrollTop+BlockEle.clientHeight+1 >= BlockEle.scrollHeight) {
+      loadText.value = true
+      loading.value = true
+      setTimeout(()=>{
+        dataText.value.push(8,9,10)
+        loadText.value = false
+        loading.value = false
+      },1500)
+    }
+  })
+})
+
 const ChangeTheme = (num:number) => {
-  console.log('点击了',num)
+  console.log(num)
   loading.value = true
   setTimeout(()=>{
     loading.value = false
-    document.getElementsByClassName('page')[0]!.className = `theme${num}`
+    document.getElementById('page')!.className = `theme${num}`
+    // document.getElementsBy('page')[0]!.className = `theme${num}`
   },2000)
 }
+
 </script>
 
 <template>
@@ -43,13 +63,11 @@ const ChangeTheme = (num:number) => {
         </path>
       </svg>
     </div>
-    <div class="BlockWarp">
-      <ThemeBlock @click="ChangeTheme(1)"></ThemeBlock>
-      <ThemeBlock></ThemeBlock>
-      <ThemeBlock></ThemeBlock>
-      <ThemeBlock></ThemeBlock>
-      <ThemeBlock></ThemeBlock>
-      <ThemeBlock></ThemeBlock>
+    <div class="BlockWarp" ref="BlockEle">
+      <ThemeBlock @click="ChangeTheme(item)" v-for="item in dataText"></ThemeBlock>
+      <div class="LoadText" v-show="loadText">
+        <p>下滑加载更多数据</p>
+      </div>
     </div>
   </div>
   <Loading v-if="loading"></Loading>
@@ -58,7 +76,7 @@ const ChangeTheme = (num:number) => {
 <style scoped lang="less">
 .Dialog {
   width: 50%;
-  height: 60%;
+  height: 70%;
   background-color: #ffffff;
   position: absolute;
   left: 50%;
@@ -80,10 +98,19 @@ const ChangeTheme = (num:number) => {
     height: 85%;
     position: absolute;
     bottom: 0;
-    overflow: hidden;
+    overflow-x: auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  .LoadText {
+    margin-top: -15px;
+    width: 100%;
+    text-align: center;
+    color: rgba(85,85,85,0.34);
   }
 }
 </style>

@@ -19,6 +19,7 @@
     margin-left: 5%;
     margin-right: 5%;
     text-align: center;
+    margin-bottom: 20px;
     .up {
       width: 100%;
       height: 80%;
