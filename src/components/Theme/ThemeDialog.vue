@@ -61,7 +61,7 @@ let dataText = reactive([
   }
 ])
 onMounted(()=>{
-  document.getElementById('page')!.className = `theme`
+  document.getElementById('page')!.className = localStorage.getItem('theme') || 'theme'
   const BlockEle = document.getElementsByClassName('BlockWarp')[0]
   BlockEle.addEventListener('scroll',()=>{
     if(BlockEle.scrollTop+BlockEle.clientHeight+1 >= BlockEle.scrollHeight) {
@@ -88,20 +88,20 @@ onMounted(()=>{
           )
           loadText.value = false
           loading.value = false
-        },1500)
+        },1000)
       }
     }
   })
 })
 
 const ChangeTheme = (num:number) => {
-  console.log(num)
+  localStorage.setItem('theme',`theme${num}`)
   loading.value = true
   setTimeout(()=>{
     loading.value = false
     document.getElementById('page')!.className = `theme${num}`
     // document.getElementsBy('page')[0]!.className = `theme${num}`
-  },2000)
+  },1300)
 }
 
 </script>
