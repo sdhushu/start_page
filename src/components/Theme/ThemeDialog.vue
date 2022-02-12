@@ -1,7 +1,17 @@
 <script setup lang="ts">
-import {defineProps, defineEmits, ref, onMounted, reactive} from "vue";
+import { ref, onMounted, reactive} from "vue";
 import ThemeBlock from './ThemeBlock.vue'
 import Loading from './Loading.vue'
+import theme from "../../assets/image/8d92efcdb0007a3af8e277731bcb561b.jpg"
+import theme1 from "../../assets/theme/2.jpg"
+import theme2 from "../../assets/theme/3.jpg"
+import theme3 from "../../assets/theme/4.jpg"
+import theme4 from "../../assets/theme/5.jpg"
+import theme6 from "../../assets/theme/6.jpg"
+import theme7 from "../../assets/theme/7.jpg"
+import theme8 from "../../assets/theme/8.jpg"
+import theme9 from "../../assets/theme/9.jpg"
+import theme10 from "../../assets/theme/10.jpg"
 defineProps({
   flag: {
     type: Boolean
@@ -17,37 +27,37 @@ let dataText = reactive([
   {
     id: 1,
     title: '城市晚霞',
-    path:'/src/assets/image/8d92efcdb0007a3af8e277731bcb561b.jpg'
+    path:theme
   },
   {
     id: 2,
     title: '慵懒少女',
-    path:'/src/assets/theme/2.jpg'
+    path:theme1
   },
   {
     id: 3,
     title: '湖光山色',
-    path:'/src/assets/theme/3.jpg'
+    path:theme2
   },
   {
     id: 4,
     title: '绿色护眼',
-    path:'/src/assets/theme/4.jpg'
+    path:theme3
   },
   {
     id: 5,
     title: '大雄和小伙伴',
-    path:'/src/assets/theme/5.jpg'
+    path:theme4
   },
   {
     id: 6,
     title: '虎年大吉',
-    path:'/src/assets/theme/6.jpg'
+    path:theme6
   },
   {
     id: 7,
     title: '山海与你',
-    path:'/src/assets/theme/7.jpg'
+    path:theme7
   }
 ])
 onMounted(()=>{
@@ -63,17 +73,17 @@ onMounted(()=>{
               {
                 id:8,
                 title: '逢考必过',
-                path: '/src/assets/theme/8.jpg'
+                path: theme8
               },
               {
                 id:9,
                 title: '卷式他们',
-                path: '/src/assets/theme/9.jpg'
+                path: theme9
               },
               {
                 id:10,
                 title: '虎年大吉',
-                path: '/src/assets/theme/10.jpg'
+                path: theme10
               }
           )
           loadText.value = false
