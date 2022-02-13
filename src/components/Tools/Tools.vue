@@ -8,34 +8,34 @@ import Todolist from './Todolist.vue';
 const listShow = ref(false)
 const sunShow = ref(false)
 const calShow = ref(false)
+const isTodo = ref(false)
 
 // 绑定小图标点击事件
 const calClick = () => {
   calShow.value = !calShow.value
-  if (sunShow.value || listShow.value) {
+  if (sunShow.value || listShow.value || isTodo.value) {
     listShow.value = false
     sunShow.value = false
+    isTodo.value = false
   }
 }
 const sunClick = () => {
   sunShow.value = !sunShow.value
-  if (calShow.value || listShow.value) {
+  if (calShow.value || listShow.value || isTodo.value) {
     calShow.value = false
     listShow.value = false
+    isTodo.value = false
   }
 }
 const taskClick = () => {
   listShow.value = !listShow.value
-  if (calShow.value || sunShow.value) {
+  if (calShow.value || sunShow.value || isTodo.value) {
     calShow.value = false
     sunShow.value = false
+    isTodo.value = false
   }
 }
-// 绑定待办点击监听
-const eyeClick = () => {
-
-}
-
+const isBg = ref(false)
 </script>
 
 <template>
@@ -44,6 +44,7 @@ const eyeClick = () => {
     <!-- 创建list-bar容器 -->
     <nav id="tools-bar">
       <div id="calendar" @click="calClick">
+        <!-- <Bg v-if="true"></Bg> -->
         <img src="../../assets/tools_img/calendar.svg" />
       </div>
       <div class="line"></div>
@@ -56,131 +57,26 @@ const eyeClick = () => {
       </div>
     </nav>
     <!-- 创建待办容器放入小组件 -->
-    <ul class="list" v-if="listShow">
-      <Todolist />
-    </ul>
-    <div class="sun" v-if="sunShow">
-      <Sun />
-    </div>
-    <div class="calendar" v-if="calShow">
-      <Cal />
-    </div>
+    <!-- 添加过渡效果 -->
+    <transition name="slide">
+      <ul class="list" v-show="listShow">
+        <Todolist />
+      </ul>
+    </transition>
+    <transition name="slide">
+      <div class="sun" v-show="sunShow">
+        <Sun />
+      </div>
+    </transition>
+    <transition name="slide">
+      <div class="calendar" v-show="calShow">
+        <Cal />
+      </div>
+    </transition>
   </div>
 </template>
 
 
 <style scoped lang="less">
-// 设置整体样式
-#tools {
-  position: absolute;
-  top: 65px;
-  right: 48px;
-}
-// 设置待办样式
-.list {
-  /* todo */
-
-  /* Auto layout */
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
-  position: absolute;
-  width: 240px;
-  height: 360px;
-  right: 0;
-  top: 60px;
-
-  background: rgba(255, 255, 255, 0.3);
-  opacity: 0.95;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(200px);
-  /* Note: backdrop-filter has minimal browser support */
-
-  border-radius: 15px;
-
-  /* Inside auto layout */
-
-  flex: none;
-  order: 2;
-  flex-grow: 0;
-  margin: 24px 0px;
-}
-// 设置顶部list-bar样式
-#tools-bar {
-  /* tools_bar */
-
-  /* Auto layout */
-
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 4px 12px;
-
-  position: static;
-  width: 115px;
-  height: 25px;
-
-  background: rgba(255, 255, 255, 0.3);
-  opacity: 0.95;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(200px);
-  /* Note: backdrop-filter has minimal browser support */
-
-  border-radius: 29px;
-
-  /* Inside auto layout */
-
-  flex: none;
-  order: 1;
-  flex-grow: 0;
-  margin: 24px 0px 24px 155px;
-  img {
-    cursor: pointer;
-    &:hover {
-      border-radius: 8px;
-      background-color: rgba(217, 217, 217, 0.75);
-    }
-  }
-}
-// 设置顶部图标样式
-#calendar,
-#sun,
-#task {
-  margin: 0px 10px;
-}
-// 设置中间分隔线样式
-.line {
-  width: 1px;
-  height: 20px;
-  color: white;
-  border-right: 2px solid white;
-}
-// 设置中间天气展开样式
-.sun {
-  width: 240px;
-  height: 200px;
-  background: rgba(255, 255, 255, 0.3);
-  opacity: 0.95;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(200px);
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
-  position: absolute;
-  right: 0;
-}
-// 设置左侧日历展开样式
-.calendar {
-  .sun();
-  right: 0;
-  width: 260px;
-  height: 150px;
-}
+@import url("../../styles/tools.less");
 </style>

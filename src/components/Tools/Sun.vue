@@ -23,5 +23,5 @@ window.WIDGET = {
 
 </script>
 
-<style scoped>
+<style scoped lang="less">
 </style>

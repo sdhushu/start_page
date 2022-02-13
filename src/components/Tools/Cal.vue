@@ -27,6 +27,7 @@
 </template>
 
 <script setup lang="ts">
+import Bg from './Bg.vue';
 // 获取当前日期
 var year = new Date().getFullYear() //获取当前年份
 var month = new Date().getMonth() + 1 //获取当前月份
@@ -74,68 +75,6 @@ const isToday = (t: any) => {
 </script>
 
 <style scoped lang="less">
-// 设置日期展示样式
-#week-appear {
-  color: red;
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  font-family: "PingFang SC", "Microsoft YaHei", Avenir, Helvetica, Arial,
-    sans-serif;
-}
-#date-appear {
-  #week-appear();
-  top: 70px;
-  left: 30px;
-  font-size: 38px;
-  color: black;
-}
-#day-appear {
-  #week-appear();
-  top: 140px;
-  left: 15px;
-  color: black;
-}
-.week-title {
-  li {
-    float: left;
-    margin: 4px;
-  }
-  position: absolute;
-  right: 10px;
-  top: 17px;
-}
-.day-box {
-  position: absolute;
-  top: 43px;
-  right: 10px;
-  .day {
-    display: flex;
-    li {
-      margin: 4px 5px;
-      font-size: 10px;
-      width: 14.08px;
-      height: 12px;
-      text-align: center;
-      &:hover {
-        font-size: 16px;
-      }
-    }
-    .now {
-      color: grey;
-    }
-    .today {
-      color: red;
-    }
-  }
-}
-.calendar {
-  cursor: pointer;
-}
-#setDay {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
+@import url("../../styles/cal.less");
 </style>
 

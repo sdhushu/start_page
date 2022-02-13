@@ -9,3 +9,4 @@ declare module '*.vue' {
 declare interface Window {
   WIDGET: any
 }
+declare module 'three'
