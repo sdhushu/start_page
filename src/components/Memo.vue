@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue';
+import 'animate.css'
 let originData = reactive({
   nowData: '',  //当前时间
   isshow: false,  //add窗口开关值，默认不展示
@@ -139,12 +140,12 @@ document.addEventListener('click', () => {
   <!-- 新插入的Note内容 -->
   <!-- 静态展示 -->
   <div
-    class="staticPresentation"
+    class="animate_animated animate__fadeInTopLeft staticPresentation"
     @click="displayList"
     v-show="originData.ulHidden"
   >{{ originData.noteBooks[0] }}</div>
-  <ul class="noteText" v-show="originData.listHidden">
-    <li
+  <ul class="animate_animated animate__bounce noteText" v-show="originData.listHidden">
+    <li class="animate_animated animate__bounceInDown"
       v-for="(item, index) in originData.noteBooks"
       @contextmenu.prevent="rightClick(item, index, $event)"
     >{{ item }}</li>
@@ -154,12 +155,12 @@ document.addEventListener('click', () => {
     </li>
   </ul>
   <!-- 添加note -->
-  <div id="add" class="addNote" @click="addNote" v-show="originData.addshow">
+  <div id="add" class="animate_animated animate__bounceIn addNote" @click="addNote" v-show="originData.addshow">
     <i class="l"></i>
     <i class="r"></i>
   </div>
   <!-- addNote输入框 -->
-  <div class="mask" v-show="originData.isshow">
+  <div class="animate_animated animate__flipInX mask" v-show="originData.isshow">
     <textarea
       class="textarea"
       rows="4"
@@ -240,10 +241,17 @@ document.addEventListener('click', () => {
     border-radius: 15px;
   }
 }
+.addNote:active{
+  background-color: #fff;
+  i{
+    background-color: rgba(0 , 0, 0, 0.3);
+  }
+}
 .mask {
   position: absolute;
   top: 108px;
-  animation: inputAnimation 3s ease-in-out 0 1 normal forwards;
+  animation: flipInX;
+  animation-duration: 1s;
   .textarea {
     font-size: 0.8rem;
     letter-spacing: 1px;
@@ -267,6 +275,9 @@ document.addEventListener('click', () => {
   }
 }
 .noteText {
+  animation: bounce;
+  animation-duration: 1s;
+
   position: absolute;
   min-height: 98px;
   max-height: 250px;
@@ -275,8 +286,11 @@ document.addEventListener('click', () => {
   border-radius: 15px;
   //多余的不显示
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.25);
+  background-color: rgba(124, 117, 117, 0.25);
   li:not(:last-of-type) {
+    animation: bounceInDown;
+    animation-duration: 1s;
+
     //内容区大小
     padding: 16px;
     width: 510px;
@@ -396,6 +410,9 @@ document.addEventListener('click', () => {
   font-weight: normal;
   font-size: 24px;
   color: #fff;
+
+  animation: fadeInTopLeft;
+  animation-duration: 1s;
 }
 #rightMenu {
   background-color: #fff;
@@ -412,15 +429,6 @@ document.addEventListener('click', () => {
   }
   li:not(:last-of-type) {
     border-bottom: 1px black solid;
-  }
-}
-
-@keyframes inputAnimation {
-  0%{
-    height: 0;
-  }
-  100%{
-    height: 100.75px;
   }
 }
 </style>
