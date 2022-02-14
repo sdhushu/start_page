@@ -14,7 +14,7 @@ import Website from "./Website.vue";
       <Website name="CSDN" nameClass="csdn" webpath="https://www.csdn.net/" />
       <Website name="Github" nameClass="github" webpath="https://github.com/" />
       <Website name="力扣" nameClass="leetcode" webpath="https://leetcode-cn.com/" />
-      <Website name="谷歌" nameClass="goog" webpath="https://www.google.com/" />
+      <Website name="知乎" nameClass="zhihu" webpath="https://www.zhihu.com//" />
     </div>
     <div class="frame10">
       <Website />
