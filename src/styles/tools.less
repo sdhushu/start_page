@@ -1,40 +1,42 @@
 // 设置整体样式
 #tools {
   position: absolute;
-  top: 65px;
-  right: 48px;
+  top     : 65px;
+  right   : 48px;
 }
+
 // 设置待办样式
 .list {
   /* todo */
 
   /* Auto layout */
 
-  display: flex;
-  flex-direction: column;
+  display        : flex;
+  flex-direction : column;
   justify-content: center;
-  align-items: center;
-  padding: 16px;
-  position: absolute;
-  width: 240px;
-  height: 400px;
-  right: 0;
-  top: 60px;
+  align-items    : center;
+  padding        : 16px;
+  position       : absolute;
+  width          : 240px;
+  height         : 400px;
+  right          : 0;
+  top            : 60px;
 
-  background: rgba(255, 255, 255, 0.3);
-  opacity: 0.95;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  background     : rgba(255, 255, 255, 0.3);
+  opacity        : 0.95;
+  box-shadow     : 0px 4px 4px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(200px);
-  /* Note: backdrop-filter has minimal browser support */
+  /* Note        : backdrop-filter has minimal browser support */
 
   border-radius: 15px;
 
   /* Inside auto layout */
 
-  flex: none;
-  order: 2;
+  flex     : none;
+  order    : 2;
   flex-grow: 0;
-  margin: 24px 0px;
+  margin   : 24px 0px;
+
   &.slide-enter-active,
   &.slide-leave-active {
     transition: opacity 1s ease;
@@ -42,77 +44,84 @@
 
   &.slide-enter-from,
   &.slide-leave-to {
-    opacity: 0;
+    opacity  : 0;
     transform: translateY(-20px) ease;
   }
 }
+
 // 设置顶部list-bar样式
 #tools-bar {
   /* tools_bar */
 
   /* Auto layout */
 
-  display: flex;
-  flex-direction: row;
+  display        : flex;
+  flex-direction : row;
   justify-content: center;
-  align-items: center;
-  padding: 4px 12px;
+  align-items    : center;
+  padding        : 4px 12px;
 
   position: static;
-  width: 115px;
-  height: 25px;
+  width   : 115px;
+  height  : 25px;
 
-  background: rgba(255, 255, 255, 0.3);
-  opacity: 0.95;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  background     : rgba(255, 255, 255, 0.3);
+  opacity        : 0.95;
+  box-shadow     : 0px 4px 6px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(200px);
-  /* Note: backdrop-filter has minimal browser support */
+  /* Note        : backdrop-filter has minimal browser support */
 
   border-radius: 29px;
 
   /* Inside auto layout */
 
-  flex: none;
-  order: 1;
+  flex     : none;
+  order    : 1;
   flex-grow: 0;
-  margin: 24px 0px 24px 155px;
+  margin   : 24px 0px 24px 155px;
+
   img {
     cursor: pointer;
+
     &:hover {
-      border-radius: 8px;
+      border-radius   : 8px;
       background-color: rgba(217, 217, 217, 0.75);
     }
   }
 }
+
 // 设置顶部图标样式
 #calendar,
 #sun,
 #task {
   margin: 0px 10px;
 }
+
 // 设置中间分隔线样式
 .line {
-  width: 1px;
-  height: 20px;
-  color: white;
+  width       : 1px;
+  height      : 20px;
+  color       : white;
   border-right: 2px solid white;
 }
+
 // 设置中间天气展开样式
 .sun {
-  width: 240px;
-  height: 200px;
-  background: rgba(255, 255, 255, 0.3);
-  opacity: 0.95;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  width          : 240px;
+  height         : 200px;
+  background     : rgba(255, 255, 255, 0.3);
+  opacity        : 0.95;
+  box-shadow     : 0px 4px 4px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(200px);
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
+  border-radius  : 15px;
+  display        : flex;
+  flex-direction : column;
   justify-content: center;
-  align-items: center;
-  padding: 16px;
-  position: absolute;
-  right: 0;
+  align-items    : center;
+  padding        : 16px;
+  position       : absolute;
+  right          : 0;
+
   &.slide-enter-active,
   &.slide-leave-active {
     transition: opacity 1s ease;
@@ -120,14 +129,15 @@
 
   &.slide-enter-from,
   &.slide-leave-to {
-    opacity: 0;
+    opacity  : 0;
     transform: translateY(-20px) ease;
   }
 }
+
 // 设置左侧日历展开样式
 .calendar {
   .sun();
-  right: 0;
-  width: 260px;
+  right : 0;
+  width : 260px;
   height: 150px;
 }

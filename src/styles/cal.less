@@ -1,68 +1,80 @@
-
 .calendar {
   background-color: transparent;
-  z-index: 9;
+  z-index         : 9;
+
   // 设置日期展示样式
   #week-appear {
-    color: rgb(74, 163, 197);
+    color   : rgb(74, 163, 197);
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top     : 20px;
+    left    : 20px;
     font-family: "PingFang SC", "Microsoft YaHei", Avenir, Helvetica, Arial,
       sans-serif;
   }
+
   #date-appear {
     #week-appear();
-    top: 70px;
-    left: 30px;
+    top      : 70px;
+    left     : 30px;
     font-size: 38px;
-    color: black;
+    color    : black;
   }
+
   #day-appear {
     #week-appear();
-    top: 140px;
-    left: 15px;
+    top  : 140px;
+    left : 15px;
     color: black;
   }
+
   .week-title {
     li {
-      float: left;
+      float : left;
       margin: 4px;
     }
+
     position: absolute;
-    right: 10px;
-    top: 17px;
+    right   : 10px;
+    top     : 17px;
   }
+
   .day-box {
     position: absolute;
-    top: 43px;
-    right: 10px;
+    top     : 43px;
+    right   : 10px;
+
     .day {
       display: flex;
+
       li {
-        margin: 4px 5px;
-        font-size: 10px;
-        width: 14.08px;
-        height: 12px;
+        margin    : 4px 5px;
+        font-size : 10px;
+        width     : 14.08px;
+        height    : 12px;
         text-align: center;
+
         &:hover {
           font-size: 16px;
         }
       }
+
       .now {
         color: grey;
       }
+
       .today {
         color: rgb(74, 163, 197);
       }
     }
   }
+
   .calendar {
     cursor: pointer;
   }
+
   #setDay {
     position: absolute;
-    top: 0;
-    left: 0;
+    top     : 0;
+    left    : 0;
   }
 }

@@ -1,118 +1,181 @@
 .list-bar {
-  height: 58px;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  border-top-left-radius: 10px;
+  height                 : 58px;
+  width                  : 100%;
+  position               : absolute;
+  top                    : 0;
+  border-top-left-radius : 10px;
   border-top-right-radius: 10px;
-  border-bottom: 2px solid rgb(69, 159, 194);
+  border-bottom          : 2px solid rgb(69, 159, 194);
+
+  // 标题样式
   #title {
-    position: absolute;
-    top: 20px;
-    right: 15px;
+    position   : absolute;
+    top        : 20px;
+    right      : 15px;
     font-family: Roboto;
-    font-style: normal;
+    font-style : normal;
     font-weight: normal;
-    font-size: 24px;
-    color: rgb(69, 159, 194);
-    cursor: pointer;
+    font-size  : 24px;
+    color      : rgb(69, 159, 194);
+    cursor     : pointer;
   }
+
+  // 图标样式
   .icon {
     img {
-      width: 25px;
-      height: 25px;
+      width   : 25px;
+      height  : 25px;
       position: absolute;
-      top: 20px;
-      left: 15px;
-      cursor: pointer;
+      top     : 20px;
+      left    : 15px;
+      cursor  : pointer;
     }
   }
 }
+
+// todo文本样式
 .list-text {
-  position: absolute;
-  width: 240px;
-  top: 60px;
-  height: 320px;
-  overflow: auto;
+  position  : absolute;
+  width     : 240px;
+  top       : 60px;
+  height    : 320px;
+  overflow  : auto;
   box-sizing: content-box;
+
+  // 设置滚动条样式
   &::-webkit-scrollbar {
-    width: 8px;
-    padding-right: 4px;
+    width           : 8px;
+    padding-right   : 4px;
     background-color: rgb(206, 238, 251);
     /*其他样式，比如圆角等*/
   }
+
   /*滑块样式*/
   &::-webkit-scrollbar-thumb {
     -webkit-border-radius: 4px;
-    border-radius: 4px;
-    background-color: rgb(206, 238, 251);
+    border-radius        : 4px;
+    background-color     : rgb(206, 238, 251);
   }
+
   // 当滚动条失去焦点时
   &::-webkit-scrollbar-thumb:window-inactive {
     background-color: rgb(242, 242, 252);
   }
+
+  // 待办事项样式
   li {
-    line-height: 15px;
-    padding: 5px 0;
-    margin-top: 10px;
-    right: 10px;
-    text-align: end;
-    font-size: 14px;
+    line-height   : 15px;
+    padding       : 5px 0;
+    margin-top    : 10px;
+    right         : 10px;
+    text-align    : end;
+    font-size     : 14px;
     vertical-align: middle;
+
     &:hover {
-      background: rgba(217, 217, 217, 0.75);
+      background   : rgba(217, 217, 217, 0.75);
       border-radius: 15px;
-      color: #ffffff;
+      color        : #55a7c8;
     }
+
+    // 完成图标样式
     #ok {
-      width: 15px;
-      height: 15px;
-      position: absolute;
-      left: 0;
+      width         : 15px;
+      height        : 15px;
+      position      : absolute;
+      left          : 0;
       vertical-align: middle;
-      cursor: pointer;
+      cursor        : pointer;
     }
+
+    // 删除图标样式
     #delete {
-      width: 15px;
-      height: 15px;
+      width   : 15px;
+      height  : 15px;
       position: absolute;
-      left: 25px;
-      cursor: pointer;
+      left    : 25px;
+      cursor  : pointer;
     }
+
+    // 已完成图标样式
     #complete {
       #ok();
     }
   }
 }
+
+// 底部输入栏样式
 .list-foot {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 50px;
-  border-top: 2px solid rgb(69, 159, 194);
-  border-bottom-left-radius: 10px;
+  position                  : absolute;
+  bottom                    : 0;
+  width                     : 100%;
+  height                    : 50px;
+  border-top                : 2px solid rgb(69, 159, 194);
+  border-bottom-left-radius : 10px;
   border-bottom-right-radius: 10px;
+
+  // 设置底部输入框样式
   #input {
-    position: absolute;
-    outline: none;
-    border: none;
-    left: 15px;
-    bottom: 15px;
-    height: 20px;
+    position     : absolute;
+    outline      : none;
+    border       : none;
+    left         : 15px;
+    bottom       : 15px;
+    height       : 20px;
     border-radius: 15px;
   }
-  #submit {
-    #input();
-    left: 220px;
-    bottom: 16px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    cursor: pointer;
-    &:hover {
-      background-color: rgba(217, 217, 217, 0.75);
+
+  // 设置提交按钮样式
+  .button {
+    position        : absolute;
+    right           : 10px;
+    bottom          : 11px;
+    border-radius   : 5px;
+    cursor          : pointer;
+    vertical-align  : middle;
+    display         : inline-block;
+    background-color: #4da3c5;
+    border-radius   : 20px;
+    border          : none;
+    text-align      : center;
+    padding         : 2px;
+    width           : 60px;
+    transition      : all 0.5s;
+    cursor          : pointer;
+    margin          : 5px;
+
+    // 设置提交按钮hover效果
+    &:hover span {
+      padding-right: 10px;
+    }
+
+    &:hover span:after {
+      opacity: 1;
+      right  : 0;
+    }
+
+    // 设置按钮文字的样式
+    span {
+      font-size : 10px;
+      color     : #ffffff;
+      cursor    : pointer;
+      display   : inline-block;
+      position  : relative;
+      transition: 0.5s;
+
+      &:after {
+        content   : '\00bb';
+        position  : absolute;
+        opacity   : 0;
+        top       : 0;
+        right     : -10px;
+        transition: 0.5s;
+      }
     }
   }
-}
-.itemShow {
-  text-decoration: line-through;
+
+  // 设置删除线
+  .itemShow {
+    text-decoration: line-through;
+  }
 }

@@ -4,12 +4,17 @@
     <div class="icon">
       <img src="../../assets/tools_img/icon.svg" />
     </div>
-    <span id="title">To-do List</span>
+    <span id="title" class="animate__animated animate__heartBeat">To-do List</span>
   </div>
   <!-- 主体内容 -->
   <!-- 遍历传入的数组，动态绑定class -->
   <ul class="list-text">
-    <li v-for="(add, index) in addList" :key="index" :class="{ itemShow: addList[index].checked }">
+    <li
+      class="animate__animated animate__fadeInUp"
+      v-for="(add, index) in addList"
+      :key="index"
+      :class="{ itemShow: addList[index].checked }"
+    >
       <span>
         <img
           src="../../assets/tools_img/check.svg"
@@ -40,12 +45,17 @@
       maxlength="14"
       placeholder="0/13"
     />
-    <input id="submit" type="submit" @click="addTask" class="button" />
+    <button class="button" @click="addTask">
+      <span>Submit</span>
+    </button>
+    <!-- <input type="submit" class="button" /> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+// 引入animate css样式
+import 'animate.css';
 // 创建空数组和字符串用来存储数据
 const add: any = ref('')
 const addList: any = ref([])
