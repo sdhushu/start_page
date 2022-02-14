@@ -65,7 +65,7 @@ const save_quit = () => {
   if (!!originData.textdata) {
     originData.noteBooks.unshift(originData.textdata)
     originData.topValue = '196px'  //出现记事本的top值,传入空串addNote不下移
-    originData.ulHidden = true  //noteBooks有内容时，打开ul
+    originData.ulHidden = true  
   }
 }
 //修改内容——修改ing
@@ -144,7 +144,8 @@ document.addEventListener('click', () => {
     @click="displayList"
     v-show="originData.ulHidden"
   >{{ originData.noteBooks[0] }}</div>
-  <ul class="animate_animated animate__bounce noteText" v-show="originData.listHidden">
+  <transition>
+    <ul class="animate_animated animate__bounce noteText" v-show="originData.listHidden">
     <li class="animate_animated animate__bounceInDown"
       v-for="(item, index) in originData.noteBooks"
       @contextmenu.prevent="rightClick(item, index, $event)"
@@ -154,6 +155,7 @@ document.addEventListener('click', () => {
       <button class="cancelBubble-btn" v-show="!originData.addshow" @click="packuplist">收起</button>
     </li>
   </ul>
+  </transition>
   <!-- 添加note -->
   <div id="add" class="animate_animated animate__bounceIn addNote" @click="addNote" v-show="originData.addshow">
     <i class="l"></i>
@@ -171,7 +173,7 @@ document.addEventListener('click', () => {
     <button @click="save_quit" class="savebutton">保存并退出</button>
   </div>
   <!-- 修改框 -->
-  <div class="modify" v-show="originData.isModifyShow">
+  <div class="animate_animated animate__flipInX modify" v-show="originData.isModifyShow">
     <textarea class="modify_textarea" rows="4" v-model="originData.transferStation"></textarea>
     <br />
     <button class="modify_button" @click="save_modify(originData.modify_num)">保存修改</button>
@@ -320,12 +322,6 @@ document.addEventListener('click', () => {
       border-radius: 3px;
       top: 22px;
     }
-    .btn-modify {
-      right: 64px;
-    }
-    .btn-del {
-      right: 16px;
-    }
   }
   .cancelBubble-btn {
     position: absolute;
@@ -337,6 +333,8 @@ document.addEventListener('click', () => {
   }
 }
 .modify {
+  animation: flipInX;
+  animation-duration: 1s;
   position: absolute;
   top: 108px;
   .modify_textarea {
@@ -361,31 +359,7 @@ document.addEventListener('click', () => {
     border-radius: 3px;
   }
 }
-.detailsShow {
-  width: 300px;
-  min-height: 16px;
-  background-color: #fff;
-  border: 1px solid #fff;
-  border-radius: 15px;
-  position: absolute;
-  left: 200px;
-  top: 116px;
-  //自动换行
-  word-wrap: break-word;
-  color: black;
-  padding: 16px;
-  padding-bottom: 34px;
-  button {
-    position: absolute;
-    background-color: rgba(255, 255, 255, 0.3);
-    color: black;
-    border: 1px solid black;
-    right: 8px;
-    bottom: 8px;
-    border-radius: 3px;
-    font-size: 16px;
-  }
-}
+
 //静态展示li
 .staticPresentation {
   //内容区大小
@@ -412,7 +386,7 @@ document.addEventListener('click', () => {
   color: #fff;
 
   animation: fadeInTopLeft;
-  animation-duration: 1s;
+  animation-duration: 0.7s;
 }
 #rightMenu {
   background-color: #fff;
