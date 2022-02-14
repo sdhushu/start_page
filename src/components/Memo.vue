@@ -81,6 +81,12 @@ const save_modify = (index: any) => {
   originData.isModifyShow = false
 }
 
+//置顶内容
+const toplist = (item:any, index:any)=>{
+  let cache : any = item;
+  originData.noteBooks.splice(index, 1)
+  originData.noteBooks.unshift(item)
+}
 
 //删除该内容
 const deleteNote = (index: any) => {
@@ -107,22 +113,13 @@ const packuplist = (event: any) => {
   originData.ulHidden = !originData.ulHidden
 }
 
-//双击li展示全文
-// const expandTheText = (item: any) => {
-//   originData.detailsShow = true
-//   originData.details = item
-// }
-// //点击关闭li详情
-// const collapseDetails = () => {
-//   originData.detailsShow = false
-// }
 //点击静态展示显示list
 const displayList = () => {
   originData.addshow = false  //展开note内容时，关闭添加按钮
   originData.listHidden = true
   originData.ulHidden = !originData.ulHidden
 }
-//右键点击修改
+//右键点击展示rightMenu和跟随鼠标点击位置
 const rightClick = (item: any, index: any, event: any) => {
   originData.itemTransition = item
   originData.indexTransition = index
@@ -178,13 +175,10 @@ document.addEventListener('click', () => {
     <br />
     <button class="modify_button" @click="save_modify(originData.modify_num)">保存修改</button>
   </div>
-  <!-- 展示li详细内容 -->
-  <!-- <div class="detailsShow" v-show="originData.detailsShow">
-    {{ originData.details }}
-    <button @click="collapseDetails">×</button>
-  </div> -->
+  
   <!-- 右键菜单 -->
   <ul id="rightMenu" v-show="originData.rightMenuShow">
+    <li @click="toplist(originData.itemTransition, originData.indexTransition)">置顶</li>
     <li @click="modifyNote(originData.itemTransition, originData.indexTransition)">修改</li>
     <li @click="deleteNote(originData.indexTransition)">删除</li>
   </ul>
@@ -273,7 +267,7 @@ document.addEventListener('click', () => {
 }
 .noteText {
   position: absolute;
-  min-height: 110px;
+  min-height: 98px;
   max-height: 250px;
   left: 48px;
   top: 116px;
@@ -405,7 +399,6 @@ document.addEventListener('click', () => {
 #rightMenu {
   background-color: #fff;
   width: 40px;
-  height: 50px;
   border-radius: 3px;
   overflow: hidden;
   //开启定位，为右键点击处为rightMenu位置做铺垫
