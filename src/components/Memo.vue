@@ -243,6 +243,7 @@ document.addEventListener('click', () => {
 .mask {
   position: absolute;
   top: 108px;
+  animation: inputAnimation 3s ease-in-out 0 1 normal forwards;
   .textarea {
     font-size: 0.8rem;
     letter-spacing: 1px;
@@ -411,6 +412,15 @@ document.addEventListener('click', () => {
   }
   li:not(:last-of-type) {
     border-bottom: 1px black solid;
+  }
+}
+
+@keyframes inputAnimation {
+  0%{
+    height: 0;
+  }
+  100%{
+    height: 100.75px;
   }
 }
 </style>
