@@ -25,11 +25,15 @@ const props = defineProps({
 
 <style scoped lang="less">
 a {
+  display: inline-block;
+  text-align: center;
   text-decoration: none;
 }
 
-a:hover .website-icon{
-  
+a:hover .website-icon {
+  position: relative;
+  left: 2px;
+  top: -2px;
 }
 
 .website-item {
@@ -41,8 +45,8 @@ a:hover .website-icon{
 }
 .website-icon {
   position: static;
-  width: 32px;
-  height: 32px;
+  width: 64px;
+  height: 64px;
   left: 0px;
   top: 0px;
   border-radius: 10px;
@@ -92,6 +96,7 @@ a:hover .website-icon{
   flex: none;
   order: 1;
   flex-grow: 0;
+
   margin: 8px 0px;
 }
 .csdn {
@@ -117,7 +122,7 @@ a:hover .website-icon{
   flex-grow: 0;
   margin: 8px 0px;
 }
-.google {
+.zhihu {
   /* Inside auto layout */
   flex: none;
   order: 1;

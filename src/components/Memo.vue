@@ -15,12 +15,12 @@ let originData = reactive({
   //本地存储localstorage
   localStorage: [] as string[],
   details: '',  //显示li详细信息
-  detailsShow: false, //li详细信息展示框默认关闭
+  // detailsShow: false, //li详细信息展示框默认关闭
   listHidden: false,
 
-  itemTransition:'',
-  indexTransition:Number,
-  rightMenuShow:false
+  itemTransition: '',
+  indexTransition: Number,
+  rightMenuShow: false
 })
 
 //设置输出当前时间，并实时刷新
@@ -103,35 +103,37 @@ const packuplist = (event: any) => {
   //将addNote显示出
   originData.addshow = true
   originData.listHidden = false
+  originData.rightMenuShow = false
+  originData.ulHidden = !originData.ulHidden
 }
 
 //双击li展示全文
-const expandTheText = (item: any) => {
-  originData.detailsShow = true
-  originData.details = item
-}
-//点击关闭li详情
-const collapseDetails = () => {
-  originData.detailsShow = false
-}
+// const expandTheText = (item: any) => {
+//   originData.detailsShow = true
+//   originData.details = item
+// }
+// //点击关闭li详情
+// const collapseDetails = () => {
+//   originData.detailsShow = false
+// }
 //点击静态展示显示list
 const displayList = () => {
   originData.addshow = false  //展开note内容时，关闭添加按钮
   originData.listHidden = true
+  originData.ulHidden = !originData.ulHidden
 }
 //右键点击修改
-const rightClick = (item:any, index:any, event:any)=>{
+const rightClick = (item: any, index: any, event: any) => {
   originData.itemTransition = item
   originData.indexTransition = index
   originData.rightMenuShow = true
-  console.log(event)
   document.getElementById('rightMenu')!.style.top = event.clientY + 'px'
   document.getElementById('rightMenu')!.style.left = event.clientX + 'px'
 }
 //点击修改或删除、没有选择删除或修改点击其他部位，关闭rightMenu
-document.addEventListener('click',()=>{
+document.addEventListener('click', () => {
   originData.rightMenuShow = false
-},false)
+}, false)
 </script>
 
 <template>
@@ -145,9 +147,10 @@ document.addEventListener('click',()=>{
     v-show="originData.ulHidden"
   >{{ originData.noteBooks[0] }}</div>
   <ul class="noteText" v-show="originData.listHidden">
-    <li v-for="(item, index) in originData.noteBooks" @dblclick="expandTheText(item)" @contextmenu.prevent="rightClick(item, index,$event)">
-      {{ item }}
-    </li>
+    <li
+      v-for="(item, index) in originData.noteBooks"
+      @contextmenu.prevent="rightClick(item, index, $event)"
+    >{{ item }}</li>
     <!-- 收起note列表 -->
     <li>
       <button class="cancelBubble-btn" v-show="!originData.addshow" @click="packuplist">收起</button>
@@ -176,10 +179,10 @@ document.addEventListener('click',()=>{
     <button class="modify_button" @click="save_modify(originData.modify_num)">保存修改</button>
   </div>
   <!-- 展示li详细内容 -->
-  <div class="detailsShow" v-show="originData.detailsShow">
+  <!-- <div class="detailsShow" v-show="originData.detailsShow">
     {{ originData.details }}
     <button @click="collapseDetails">×</button>
-  </div>
+  </div> -->
   <!-- 右键菜单 -->
   <ul id="rightMenu" v-show="originData.rightMenuShow">
     <li @click="modifyNote(originData.itemTransition, originData.indexTransition)">修改</li>
@@ -272,15 +275,12 @@ document.addEventListener('click',()=>{
   position: absolute;
   min-height: 110px;
   max-height: 250px;
-  left: 64px;
+  left: 48px;
   top: 116px;
   border-radius: 15px;
-  
-  // display: flex;
-  // flex-direction: column;
   //多余的不显示
   overflow: auto;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.25);
   li:not(:last-of-type) {
     //内容区大小
     padding: 16px;
@@ -388,13 +388,13 @@ document.addEventListener('click',()=>{
   background-color: rgba(255, 255, 255, 0.3);
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   //位置
-  position: absolute; 
+  position: absolute;
   left: 48px;
   top: 116px;
-  //设置单行显示，多余显示省略号
-  display: inline-block;
+  //设置单行隐藏
   overflow: hidden;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
+  white-space: nowrap;
   // 字体
   font-family: Roboto, serif;
   font-style: normal;
@@ -402,7 +402,7 @@ document.addEventListener('click',()=>{
   font-size: 24px;
   color: #fff;
 }
-#rightMenu{
+#rightMenu {
   background-color: #fff;
   width: 40px;
   height: 50px;
@@ -410,13 +410,13 @@ document.addEventListener('click',()=>{
   overflow: hidden;
   //开启定位，为右键点击处为rightMenu位置做铺垫
   position: absolute;
-  li{
+  li {
     width: 100%;
     line-height: 24px;
     font-size: 16px;
     padding-left: 3px;
   }
-  li:not(:last-of-type){
+  li:not(:last-of-type) {
     border-bottom: 1px black solid;
   }
 }
