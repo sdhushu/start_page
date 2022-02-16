@@ -277,9 +277,6 @@ document.addEventListener('click', () => {
   }
 }
 .noteText {
-  animation: bounce;
-  animation-duration: 1s;
-
   position: absolute;
   min-height: 98px;
   max-height: 250px;
