@@ -411,6 +411,8 @@ document.addEventListener('click', () => {
   overflow: hidden;
   //开启定位，为右键点击处为rightMenu位置做铺垫
   position: absolute;
+  //设置鼠标光标样式
+  cursor  : pointer;
   li {
     width: 100%;
     line-height: 24px;
