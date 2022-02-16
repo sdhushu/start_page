@@ -45,8 +45,8 @@ a:hover .website-icon {
 }
 .website-icon {
   position: static;
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
   left: 0px;
   top: 0px;
   border-radius: 10px;
@@ -66,10 +66,10 @@ a:hover .website-icon {
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 14px;
   line-height: 21px;
   /* identical to box height */
-  color: #ffffff;
+  color: #111111;
 }
 .juejin {
   /* Inside auto layout */
