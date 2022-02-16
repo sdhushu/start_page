@@ -53,13 +53,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+//调用axios向服务器发送请求
+import axios from 'axios'
+import { ref, onMounted } from 'vue';
 // 引入animate css样式
 import 'animate.css';
+// 使用onMounted API
+onMounted(() => {
+  // 请求获取todolist中用户输入的字符串
+  axios({
+    method: 'get',
+    url: 'https://startpage.zorn.wang/api/todo',
+  })
+    .then(res => {
+      console.log(res);
+    });
+})
 // 创建空数组和字符串用来存储数据
 const add: any = ref('')
 const addList: any = ref([])
-const showList: any = ref([])
 // 绑定点击和回车事件
 const addTask = () => {
   // 用trim方法去掉所输入字符串的前后的空格判断用户输入是否合法
@@ -69,6 +81,14 @@ const addTask = () => {
     addList.value.push({ item: add.value, checked: false })
     add.value = '' //清空输入框
   }
+  // 请求传入todolist中用户输入的字符串
+  axios({
+    method: 'post',
+    url: 'https://startpage.zorn.wang/api/todo',
+  })
+    .then(res => {
+      console.log(res.data);
+    });
 }
 // 绑定todo已办点击事件
 const complete = (i: any) => {
