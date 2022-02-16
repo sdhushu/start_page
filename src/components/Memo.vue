@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, reactive } from 'vue';
+import 'animate.css'
 let originData = reactive({
   nowData: '',  //当前时间
   isshow: false,  //add窗口开关值，默认不展示
@@ -64,7 +65,7 @@ const save_quit = () => {
   if (!!originData.textdata) {
     originData.noteBooks.unshift(originData.textdata)
     originData.topValue = '196px'  //出现记事本的top值,传入空串addNote不下移
-    originData.ulHidden = true  //noteBooks有内容时，打开ul
+    originData.ulHidden = true  
   }
 }
 //修改内容——修改ing
@@ -81,6 +82,12 @@ const save_modify = (index: any) => {
   originData.isModifyShow = false
 }
 
+//置顶内容
+const toplist = (item:any, index:any)=>{
+  let cache : any = item;
+  originData.noteBooks.splice(index, 1)
+  originData.noteBooks.unshift(item)
+}
 
 //删除该内容
 const deleteNote = (index: any) => {
@@ -107,22 +114,13 @@ const packuplist = (event: any) => {
   originData.ulHidden = !originData.ulHidden
 }
 
-//双击li展示全文
-// const expandTheText = (item: any) => {
-//   originData.detailsShow = true
-//   originData.details = item
-// }
-// //点击关闭li详情
-// const collapseDetails = () => {
-//   originData.detailsShow = false
-// }
 //点击静态展示显示list
 const displayList = () => {
   originData.addshow = false  //展开note内容时，关闭添加按钮
   originData.listHidden = true
   originData.ulHidden = !originData.ulHidden
 }
-//右键点击修改
+//右键点击展示rightMenu和跟随鼠标点击位置
 const rightClick = (item: any, index: any, event: any) => {
   originData.itemTransition = item
   originData.indexTransition = index
@@ -142,12 +140,13 @@ document.addEventListener('click', () => {
   <!-- 新插入的Note内容 -->
   <!-- 静态展示 -->
   <div
-    class="staticPresentation"
+    class="animate_animated animate__fadeInTopLeft staticPresentation"
     @click="displayList"
     v-show="originData.ulHidden"
   >{{ originData.noteBooks[0] }}</div>
-  <ul class="noteText" v-show="originData.listHidden">
-    <li
+  <transition>
+    <ul class="animate_animated animate__bounce noteText" v-show="originData.listHidden">
+    <li class="animate_animated animate__bounceInDown"
       v-for="(item, index) in originData.noteBooks"
       @contextmenu.prevent="rightClick(item, index, $event)"
     >{{ item }}</li>
@@ -156,13 +155,14 @@ document.addEventListener('click', () => {
       <button class="cancelBubble-btn" v-show="!originData.addshow" @click="packuplist">收起</button>
     </li>
   </ul>
+  </transition>
   <!-- 添加note -->
-  <div id="add" class="addNote" @click="addNote" v-show="originData.addshow">
+  <div id="add" class="animate_animated animate__bounceIn addNote" @click="addNote" v-show="originData.addshow">
     <i class="l"></i>
     <i class="r"></i>
   </div>
   <!-- addNote输入框 -->
-  <div class="mask" v-show="originData.isshow">
+  <div class="animate_animated animate__flipInX mask" v-show="originData.isshow">
     <textarea
       class="textarea"
       rows="4"
@@ -173,18 +173,15 @@ document.addEventListener('click', () => {
     <button @click="save_quit" class="savebutton">保存并退出</button>
   </div>
   <!-- 修改框 -->
-  <div class="modify" v-show="originData.isModifyShow">
+  <div class="animate_animated animate__flipInX modify" v-show="originData.isModifyShow">
     <textarea class="modify_textarea" rows="4" v-model="originData.transferStation"></textarea>
     <br />
     <button class="modify_button" @click="save_modify(originData.modify_num)">保存修改</button>
   </div>
-  <!-- 展示li详细内容 -->
-  <!-- <div class="detailsShow" v-show="originData.detailsShow">
-    {{ originData.details }}
-    <button @click="collapseDetails">×</button>
-  </div> -->
+  
   <!-- 右键菜单 -->
   <ul id="rightMenu" v-show="originData.rightMenuShow">
+    <li @click="toplist(originData.itemTransition, originData.indexTransition)">置顶</li>
     <li @click="modifyNote(originData.itemTransition, originData.indexTransition)">修改</li>
     <li @click="deleteNote(originData.indexTransition)">删除</li>
   </ul>
@@ -246,9 +243,17 @@ document.addEventListener('click', () => {
     border-radius: 15px;
   }
 }
+.addNote:active{
+  background-color: #fff;
+  i{
+    background-color: rgba(0 , 0, 0, 0.3);
+  }
+}
 .mask {
   position: absolute;
   top: 108px;
+  animation: flipInX;
+  animation-duration: 1s;
   .textarea {
     font-size: 0.8rem;
     letter-spacing: 1px;
@@ -272,16 +277,22 @@ document.addEventListener('click', () => {
   }
 }
 .noteText {
+  animation: bounce;
+  animation-duration: 1s;
+
   position: absolute;
-  min-height: 110px;
+  min-height: 98px;
   max-height: 250px;
   left: 48px;
   top: 116px;
   border-radius: 15px;
   //多余的不显示
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.25);
+  background-color: rgba(124, 117, 117, 0.25);
   li:not(:last-of-type) {
+    animation: bounceInDown;
+    animation-duration: 1s;
+
     //内容区大小
     padding: 16px;
     width: 510px;
@@ -311,12 +322,6 @@ document.addEventListener('click', () => {
       border-radius: 3px;
       top: 22px;
     }
-    .btn-modify {
-      right: 64px;
-    }
-    .btn-del {
-      right: 16px;
-    }
   }
   .cancelBubble-btn {
     position: absolute;
@@ -328,6 +333,8 @@ document.addEventListener('click', () => {
   }
 }
 .modify {
+  animation: flipInX;
+  animation-duration: 1s;
   position: absolute;
   top: 108px;
   .modify_textarea {
@@ -352,31 +359,7 @@ document.addEventListener('click', () => {
     border-radius: 3px;
   }
 }
-.detailsShow {
-  width: 300px;
-  min-height: 16px;
-  background-color: #fff;
-  border: 1px solid #fff;
-  border-radius: 15px;
-  position: absolute;
-  left: 200px;
-  top: 116px;
-  //自动换行
-  word-wrap: break-word;
-  color: black;
-  padding: 16px;
-  padding-bottom: 34px;
-  button {
-    position: absolute;
-    background-color: rgba(255, 255, 255, 0.3);
-    color: black;
-    border: 1px solid black;
-    right: 8px;
-    bottom: 8px;
-    border-radius: 3px;
-    font-size: 16px;
-  }
-}
+
 //静态展示li
 .staticPresentation {
   //内容区大小
@@ -401,11 +384,13 @@ document.addEventListener('click', () => {
   font-weight: normal;
   font-size: 24px;
   color: #fff;
+
+  animation: fadeInTopLeft;
+  animation-duration: 0.7s;
 }
 #rightMenu {
   background-color: #fff;
   width: 40px;
-  height: 50px;
   border-radius: 3px;
   overflow: hidden;
   //开启定位，为右键点击处为rightMenu位置做铺垫
