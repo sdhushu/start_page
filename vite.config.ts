@@ -12,5 +12,15 @@ export default defineConfig({
     alias:[
       {find:'@',replacement:srcPath}
     ]
+  },
+  server: {
+    proxy:{
+      '/api':{
+        target:'http://startpage.zorn.wang/api/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
+      },
+    },
+    cors:true
   }
 })
