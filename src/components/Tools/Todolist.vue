@@ -43,7 +43,7 @@
       @keyup.enter="addTask"
       v-model="add"
       maxlength="14"
-      placeholder="0/13"
+      placeholder="你有什么事情要做呢？"
     />
     <button class="button" @click="addTask">
       <span>Submit</span>

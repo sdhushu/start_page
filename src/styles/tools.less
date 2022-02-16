@@ -122,6 +122,7 @@
   position       : absolute;
   right          : 0;
 
+  // 设置组件切换效果
   &.slide-enter-active,
   &.slide-leave-active {
     transition: opacity 1s ease;
@@ -140,4 +141,18 @@
   right : 0;
   width : 260px;
   height: 150px;
+}
+
+// 设置图标点击阴影
+.cal {
+  border-radius   : 8px;
+  background-color: rgba(217, 217, 217, 0.75);
+}
+
+.weather {
+  .cal();
+}
+
+.td {
+  .cal();
 }
