@@ -46,14 +46,14 @@ export default defineComponent({
   <div class="search">
     <ul class="search-nav">
       <li v-for="(value,index) in searchEngines" @click="handleSearchTabClick(index,value)" class="active"
-          :class="{ selected: current_index==index}">
+          :class="{ selected: current_index===index}">
         {{ value.name }}
       </li>
     </ul>
     <div class="search-box">
       <form class="search-box-items" :action="searchPrefix" method="get" target="_blank">
         <input type="text" class="search-in" :name="searchParam" :placeholder="place">
-        <button class="search-btn" type="submit"><img src="../assets/image/search-normal.svg"></button>
+        <button class="search-btn" type="submit"><img src="../assets/image/search-normal.svg" alt="search-icon"></button>
       </form>
     </div>
   </div>
@@ -92,13 +92,13 @@ export default defineComponent({
 .active:hover {
   background: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(200px);
-  border-radius: 10px 10px 0px 0px;
+  border-radius: 10px 10px 0 0;
 }
 
 .selected {
   background: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(200px);
-  border-radius: 10px 10px 0px 0px;
+  border-radius: 10px 10px 0 0;
 }
 
 .search-box {
@@ -109,7 +109,7 @@ export default defineComponent({
   height: 50px;
   background: rgba(255, 255, 255, 0.3);
   opacity: 0.95;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(200px);
   border-radius: 57px;
 }
@@ -123,7 +123,7 @@ export default defineComponent({
 
 .search-in {
   outline-style: none;
-  border: 0ch;
+  border: 0;
   margin-left: 16px;
   background: transparent;
   font-size: 16px;
@@ -137,7 +137,7 @@ export default defineComponent({
   background: #3D8CFF;
   border-radius: 30px;
   outline-style: none;
-  border: 0ch;
+  border: 0;
 }
 </style>
 
