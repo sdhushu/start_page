@@ -2,6 +2,7 @@
 import { ref, onMounted, reactive} from "vue";
 import ThemeBlock from './ThemeBlock.vue'
 import Loading from './Loading.vue'
+import Upload from './Upload.vue'
 import theme from "../../assets/image/8d92efcdb0007a3af8e277731bcb561b.jpg"
 import theme1 from "../../assets/theme/2.jpg"
 import theme2 from "../../assets/theme/3.jpg"
@@ -31,12 +32,12 @@ let dataText = reactive([
   },
   {
     id: 2,
-    title: '慵懒少女',
+    title: '海天一色',
     path:theme1
   },
   {
     id: 3,
-    title: '湖光山色',
+    title: '悬崖边的派大星',
     path:theme2
   },
   {
@@ -77,7 +78,7 @@ onMounted(()=>{
               },
               {
                 id:9,
-                title: '卷式他们',
+                title: '朋克时代',
                 path: theme9
               },
               {
@@ -100,7 +101,6 @@ const ChangeTheme = (num:number) => {
   setTimeout(()=>{
     loading.value = false
     document.getElementById('page')!.className = `theme${num}`
-    // document.getElementsBy('page')[0]!.className = `theme${num}`
   },1300)
 }
 
@@ -129,6 +129,7 @@ const ChangeTheme = (num:number) => {
     </div>
     <div class="BlockWarp" ref="BlockEle">
       <ThemeBlock @click="ChangeTheme(item.id)" v-for="item in dataText" :src="item.path" :text="item.title"></ThemeBlock>
+      <Upload></Upload>
       <div class="LoadText" v-show="loadText">
         <p>下滑加载更多数据</p>
       </div>

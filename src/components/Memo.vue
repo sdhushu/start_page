@@ -62,7 +62,7 @@ const save_quit = () => {
   originData.isshow = false
   //将textData中的数据迁移到noteBooks中，以供展示
   //判断textdata是否为空串,为空串时，不将其传入noteBooks
-  if (!!originData.textdata) {
+  if (originData.textdata) {
     originData.noteBooks.unshift(originData.textdata)
     originData.topValue = '196px'  //出现记事本的top值,传入空串addNote不下移
     originData.ulHidden = true  
@@ -104,9 +104,9 @@ const deleteNote = (index: any) => {
 }
 
 //收起列表
-const packuplist = (event: any) => {
+const packuplist = ($event: any) => {
   //阻止冒泡
-  event.cancelBubble = true
+  $event.cancelBubble = true
   //将addNote显示出
   originData.addshow = true
   originData.listHidden = false
@@ -145,7 +145,7 @@ document.addEventListener('click', () => {
     v-show="originData.ulHidden"
   >{{ originData.noteBooks[0] }}</div>
   <transition>
-    <ul class="animate_animated animate__bounce noteText" v-show="originData.listHidden">
+    <ul class="noteText" v-show="originData.listHidden">
     <li class="animate_animated animate__bounceInDown"
       v-for="(item, index) in originData.noteBooks"
       @contextmenu.prevent="rightClick(item, index, $event)"
@@ -277,9 +277,6 @@ document.addEventListener('click', () => {
   }
 }
 .noteText {
-  animation: bounce;
-  animation-duration: 1s;
-
   position: absolute;
   min-height: 98px;
   max-height: 250px;

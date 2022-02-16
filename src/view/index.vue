@@ -3,12 +3,14 @@ import Tools from '../components/Tools/Tools.vue';
 import Memo from '@/components/Memo.vue'
 import Hyperlink from '@/components/Hyperlink/Hyperlink.vue'
 import Wallpaper from '@/components/Theme/Wallpaper.vue'
+import Search from "@/components/Search.vue";
 </script>
 
 <template>
   <div id="page">
     <Tools></Tools>
     <Memo></Memo>
+    <Search></Search>
     <Hyperlink></Hyperlink>
     <Wallpaper></Wallpaper>
   </div>
