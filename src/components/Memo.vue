@@ -97,16 +97,14 @@ const deleteNote = (index: any) => {
     originData.noteBooks.splice(index, 1)
     originData.addshow = true
     originData.topValue = '116px'
-    packuplist(event);
+    packuplist();
     originData.ulHidden = false //删除最后一个li，将ul关闭
   }
   originData.rightMenuShow = false //防止删除最后一个后无法冒泡
 }
 
 //收起列表
-const packuplist = ($event: any) => {
-  //阻止冒泡
-  $event.cancelBubble = true
+const packuplist = () => {
   //将addNote显示出
   originData.addshow = true
   originData.listHidden = false
@@ -148,11 +146,11 @@ document.addEventListener('click', () => {
     <ul class="noteText" v-show="originData.listHidden">
     <li class="animate_animated animate__bounceInDown"
       v-for="(item, index) in originData.noteBooks"
-      @contextmenu.prevent="rightClick(item, index, $event)"
+      @click.right.prevent="rightClick(item, index, $event)"
     >{{ item }}</li>
     <!-- 收起note列表 -->
     <li>
-      <button class="cancelBubble-btn" v-show="!originData.addshow" @click="packuplist">收起</button>
+      <button class="cancelBubble-btn" v-show="!originData.addshow" @click.stop="packuplist">收起</button>
     </li>
   </ul>
   </transition>
