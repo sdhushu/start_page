@@ -145,7 +145,7 @@ document.addEventListener('click', () => {
     v-show="originData.ulHidden"
   >{{ originData.noteBooks[0] }}</div>
   <transition>
-    <ul class="animate_animated animate__bounce noteText" v-show="originData.listHidden">
+    <ul class="noteText" v-show="originData.listHidden">
     <li class="animate_animated animate__bounceInDown"
       v-for="(item, index) in originData.noteBooks"
       @contextmenu.prevent="rightClick(item, index, $event)"
@@ -277,9 +277,6 @@ document.addEventListener('click', () => {
   }
 }
 .noteText {
-  animation: bounce;
-  animation-duration: 1s;
-
   position: absolute;
   min-height: 98px;
   max-height: 250px;
