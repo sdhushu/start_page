@@ -97,7 +97,7 @@ const deleteNote = (index: any) => {
     originData.noteBooks.splice(index, 1)
     originData.addshow = true
     originData.topValue = '116px'
-    packuplist;
+    packuplist(event);
     originData.ulHidden = false //删除最后一个li，将ul关闭
   }
   originData.rightMenuShow = false //防止删除最后一个后无法冒泡
