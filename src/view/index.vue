@@ -2,6 +2,16 @@
   import Memo from '@/components/Memo.vue'
   import Hyperlink from '@/components/Hyperlink/Hyperlink.vue'
   import Wallpaper from '@/components/Theme/Wallpaper.vue'
+  import Search from '@/components/Search.vue'
+
+  export default{
+    components:{
+      Memo,
+      Hyperlink,
+      Wallpaper,
+      Search,
+    }
+  }
 </script>
 
 <template>
@@ -9,6 +19,7 @@
     <Memo></Memo>
     <Hyperlink></Hyperlink>
     <Wallpaper></Wallpaper>
+    <Search></Search>
   </div>
 </template>
 
