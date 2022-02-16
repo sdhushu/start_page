@@ -69,7 +69,7 @@ a:hover .website-icon {
   font-size: 14px;
   line-height: 21px;
   /* identical to box height */
-  color: #111111;
+  color: #ffffff;
 }
 .juejin {
   /* Inside auto layout */
