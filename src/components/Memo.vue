@@ -13,8 +13,6 @@ let originData = reactive({
   modify_num: Number,  //记录点击的是哪个noteText
   addshow: true,  //加号标签是否显示
   ulHidden: false,
-  //本地存储localstorage
-  localStorage: [] as string[],
   details: '',  //显示li详细信息
   // detailsShow: false, //li详细信息展示框默认关闭
   listHidden: false,
