@@ -65,7 +65,7 @@ const save_quit = () => {
   if (originData.textdata) {
     originData.noteBooks.unshift(originData.textdata)
     originData.topValue = '196px'  //出现记事本的top值,传入空串addNote不下移
-    originData.ulHidden = true  
+    originData.ulHidden = true
   }
 }
 //修改内容——修改ing
@@ -83,8 +83,8 @@ const save_modify = (index: any) => {
 }
 
 //置顶内容
-const toplist = (item:any, index:any)=>{
-  let cache : any = item;
+const toplist = (item: any, index: any) => {
+  let cache: any = item;
   originData.noteBooks.splice(index, 1)
   originData.noteBooks.unshift(item)
 }
@@ -144,18 +144,24 @@ document.addEventListener('click', () => {
   >{{ originData.noteBooks[0] }}</div>
   <transition>
     <ul class="noteText" v-show="originData.listHidden">
-    <li class="animate_animated animate__bounceInDown"
-      v-for="(item, index) in originData.noteBooks"
-      @click.right.prevent="rightClick(item, index, $event)"
-    >{{ item }}</li>
-    <!-- 收起note列表 -->
-    <li>
-      <button class="cancelBubble-btn" v-show="!originData.addshow" @click.stop="packuplist">收起</button>
-    </li>
-  </ul>
+      <li
+        class="animate_animated animate__bounceInDown"
+        v-for="(item, index) in originData.noteBooks"
+        @click.right.prevent="rightClick(item, index, $event)"
+      >{{ item }}</li>
+      <!-- 收起note列表 -->
+      <li>
+        <button class="cancelBubble-btn" v-show="!originData.addshow" @click.stop="packuplist">收起</button>
+      </li>
+    </ul>
   </transition>
   <!-- 添加note -->
-  <div id="add" class="animate_animated animate__bounceIn addNote" @click="addNote" v-show="originData.addshow">
+  <div
+    id="add"
+    class="animate_animated animate__bounceIn addNote"
+    @click="addNote"
+    v-show="originData.addshow"
+  >
     <i class="l"></i>
     <i class="r"></i>
   </div>
@@ -176,7 +182,7 @@ document.addEventListener('click', () => {
     <br />
     <button class="modify_button" @click="save_modify(originData.modify_num)">保存修改</button>
   </div>
-  
+
   <!-- 右键菜单 -->
   <ul id="rightMenu" v-show="originData.rightMenuShow">
     <li @click="toplist(originData.itemTransition, originData.indexTransition)">置顶</li>
@@ -241,10 +247,10 @@ document.addEventListener('click', () => {
     border-radius: 15px;
   }
 }
-.addNote:active{
+.addNote:active {
   background-color: #fff;
-  i{
-    background-color: rgba(0 , 0, 0, 0.3);
+  i {
+    background-color: rgba(0, 0, 0, 0.3);
   }
 }
 .mask {
@@ -281,9 +287,23 @@ document.addEventListener('click', () => {
   left: 48px;
   top: 116px;
   border-radius: 15px;
-  //多余的不显示
-  overflow: auto;
   background-color: rgba(124, 117, 117, 0.25);
+  //设置滚动条样式
+  overflow: hidden;
+  &:hover{     //不移动时滚动条不出现
+    overflow-y: auto;
+  }
+  &::-webkit-scrollbar {  //设置滚动条样式
+    width           : 8px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb{  //滑块样式
+    -webkit-border-radius: 4px;
+    border-radius        : 4px;
+    background-color     : #fff;
+  }
   li:not(:last-of-type) {
     animation: bounceInDown;
     animation-duration: 1s;
@@ -318,6 +338,7 @@ document.addEventListener('click', () => {
       top: 22px;
     }
   }
+  
   .cancelBubble-btn {
     position: absolute;
     left: 280px;
@@ -390,6 +411,8 @@ document.addEventListener('click', () => {
   overflow: hidden;
   //开启定位，为右键点击处为rightMenu位置做铺垫
   position: absolute;
+  //设置鼠标光标样式
+  cursor  : pointer;
   li {
     width: 100%;
     line-height: 24px;
