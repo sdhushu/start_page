@@ -13,8 +13,6 @@ let originData = reactive({
   modify_num: Number,  //记录点击的是哪个noteText
   addshow: true,  //加号标签是否显示
   ulHidden: false,
-  //本地存储localstorage
-  localStorage: [] as string[],
   details: '',  //显示li详细信息
   // detailsShow: false, //li详细信息展示框默认关闭
   listHidden: false,
@@ -49,6 +47,18 @@ const formatDate = () => {
 
 onMounted(() => {
   currentTime(); //组件挂载时，记录时间
+  //读取本地存储
+  const data = getlocal()
+  //遍历向originData.noteBooks中添加元素
+  for (let i = 0; i < data.length; i++) {
+    originData.noteBooks.push(data[i])
+  }
+  console.log(originData.noteBooks[0])
+  //判断originData.noteBooks是否为空数组，若不是空数组，默认展示框的v-show为true
+  if(originData.noteBooks.length >= 1){
+    originData.ulHidden = true
+    originData.topValue = '196px'  //添加框下移
+  }
 })
 
 //点击addNote
@@ -67,6 +77,7 @@ const save_quit = () => {
     originData.topValue = '196px'  //出现记事本的top值,传入空串addNote不下移
     originData.ulHidden = true
   }
+  localStorage.setItem("note", JSON.stringify(originData.noteBooks))
 }
 //修改内容——修改ing
 const modifyNote = (item: any, index: any) => {
@@ -80,6 +91,7 @@ const save_modify = (index: any) => {
   originData.noteBooks[index] = originData.transferStation
   //关闭修改框
   originData.isModifyShow = false
+  localStorage.setItem("note", JSON.stringify(originData.noteBooks))
 }
 
 //置顶内容
@@ -87,6 +99,7 @@ const toplist = (item: any, index: any) => {
   let cache: any = item;
   originData.noteBooks.splice(index, 1)
   originData.noteBooks.unshift(item)
+  localStorage.setItem("note", JSON.stringify(originData.noteBooks))
 }
 
 //删除该内容
@@ -101,6 +114,7 @@ const deleteNote = (index: any) => {
     originData.ulHidden = false //删除最后一个li，将ul关闭
   }
   originData.rightMenuShow = false //防止删除最后一个后无法冒泡
+  localStorage.setItem("note", JSON.stringify(originData.noteBooks))
 }
 
 //收起列表
@@ -130,6 +144,11 @@ const rightClick = (item: any, index: any, event: any) => {
 document.addEventListener('click', () => {
   originData.rightMenuShow = false
 }, false)
+//读取本地存储
+const getlocal = () => {
+  let data:any = localStorage.getItem("note")
+  return JSON.parse(data) || []
+}
 </script>
 
 <template>
