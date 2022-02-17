@@ -1,4 +1,4 @@
-import axios,{AxiosRequestConfig} from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import axiosRetry from "axios-retry";
 
 
@@ -8,11 +8,11 @@ const http = axios.create({
 })
 // Get Post Delete Put
 // 请求失败自动重试
-axiosRetry(http, {retries: 3})
+axiosRetry(http, { retries: 3 })
 
 
-async function request(url:string, config?:AxiosRequestConfig) {
-    const res = await http.request({url,...config})
+async function request(url: string, config?: AxiosRequestConfig) {
+    const res = await http.request({ url, ...config })
     return res.data
 }
 
@@ -22,20 +22,20 @@ async function request(url:string, config?:AxiosRequestConfig) {
 // })
 
 // 携带token JWT认证
-http.interceptors.request.use(config=>{
+http.interceptors.request.use(config => {
     // @ts-ignore
     config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
     return config
 })
 
-function getError (error:any) {
-    if(axios.isCancel(error)) return console.error('请求的重复请求：' + error.data.errorMessage);
+function getError(error: any) {
+    if (axios.isCancel(error)) return console.error('请求的重复请求：' + error.data.errorMessage);
     let message = '';
     if (error && error.data.errorMessage) {
-        switch(error.data.errorCode) {
-            case 302: message = '接口重定向了！';break;
-            case 400: message = '参数不正确！';break;
-            case 401: message = '您未登录，或者登录已经超时，请先登录！';break;
+        switch (error.data.errorCode) {
+            case 302: message = '接口重定向了！'; break;
+            case 400: message = '参数不正确！'; break;
+            case 401: message = '您未登录，或者登录已经超时，请先登录！'; break;
             case 403: message = '您没有权限操作！'; break;
             case 404: message = `请求地址出错: ${error.response.config.url}`; break;
             case 408: message = '请求超时！'; break;
@@ -51,4 +51,4 @@ function getError (error:any) {
     }
     throw message
 }
-export {request}
+export { request }

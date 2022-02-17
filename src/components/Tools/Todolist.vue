@@ -53,50 +53,95 @@
 </template>
 
 <script setup lang="ts">
-//调用axios向服务器发送请求
-import axios from 'axios'
+import { getUser, loginUser, refreshUser, exitLogin } from '../../api/login';
 import { ref, onMounted } from 'vue';
 // 引入animate css样式
 import 'animate.css';
-// 使用onMounted API
-onMounted(() => {
-  // 请求获取todolist中用户输入的字符串
-  axios({
-    method: 'get',
-    url: 'https://startpage.zorn.wang/api/todo',
-  })
-    .then(res => {
-      console.log(res);
-    });
-})
+// 调用封装的API
+import { request } from '../../api/axios';
 // 创建空数组和字符串用来存储数据
 const add: any = ref('')
 const addList: any = ref([])
+
+// 使用onMounted API
+onMounted(() => {
+  // 请求登录
+  // loginUser({
+  //   "username": "test",
+  //   "password": "test",
+  // }).then(res => {
+  //   const token = window.localStorage.setItem("token", res.data.accessToken)
+  // })
+  // // 请求用户信息
+  // getUser().then(res => {
+  //   console.log(res);
+  // })
+
+  // request('api/todo', {
+  //   method: "get",
+  // }).then(res => {
+  //   addList.value.push({ item: res.data.content })
+  // })
+
+  // 读取本地存储中的数据
+  const data = readStorage()
+  // 遍历data数组并向addList数组中添加元素
+  for (let i = 0; i < data.length; i++) {
+    addList.value.push({ item: data[i].item, checked: data[i].checked })
+  }
+})
+
 // 绑定点击和回车事件
 const addTask = () => {
   // 用trim方法去掉所输入字符串的前后的空格判断用户输入是否合法
   if ((add.value).trim() === '') {
     alert('请输入有效的文字！')
   } else {
+    // 添加用户输入的数据到addList
     addList.value.push({ item: add.value, checked: false })
+    // 向服务端发送请求添加用户输入的数据
+    // request('api/todo', {
+    //   data: {
+    //     content: `${add.value}`
+    //   },
+    //   method: "post",
+    // }).then(res => {
+    //   console.log('------', res);
+    // })
+    // 向本地存储中添加addList数组，并通过stringify方法转换为字符串格式
+    localStorage.setItem("todo", JSON.stringify(addList.value))
     add.value = '' //清空输入框
   }
-  // 请求传入todolist中用户输入的字符串
-  axios({
-    method: 'post',
-    url: 'https://startpage.zorn.wang/api/todo',
-  })
-    .then(res => {
-      console.log(res.data);
-    });
+}
+// 定义函数来读取本地存储的数据
+const readStorage = () => {
+  const data: any = localStorage.getItem("todo")
+  return JSON.parse(data) || []
 }
 // 绑定todo已办点击事件
 const complete = (i: any) => {
+  // 更改事项完成状态
   addList.value[i].checked = !addList.value[i].checked
+  const oldList = readStorage()
+  // 遍历数组并更改事项完成状态
+  for (let i = 0; i < oldList.length; i++) {
+    oldList[i].checked = !oldList[i].checked
+    localStorage.setItem("todo", JSON.stringify(addList.value))
+  }
+
+
+
 }
 // 绑定点击删除对应事项函数
 const deleteIt = (i: any) => {
+  // 删除对应索引的元素
   addList.value.splice(i, 1)
+  const oldList = readStorage()
+  // 遍历数组删除之后重新添加
+  for (let i = 0; i < oldList.length; i++) {
+    oldList[i].checked = !oldList[i].checked
+    localStorage.setItem("todo", JSON.stringify(addList.value))
+  }
 }
 
 </script>
