@@ -129,6 +129,8 @@ export default defineComponent({
   margin-left: 16px;
   background: transparent;
   font-size: 16px;
+  width: 502px;
+  color: white;
 }
 
 .search-btn {
