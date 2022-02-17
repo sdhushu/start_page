@@ -67,7 +67,9 @@ export default defineComponent({
   flex-flow: column wrap;
   align-content: center;
   align-items: flex-start;
-  height: 60%;
+  position: absolute;
+  top: calc(50% - 328px / 2);
+  left: calc(50% - 600px / 2);
 }
 
 .search-nav {
