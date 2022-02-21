@@ -3,6 +3,8 @@ import { ref, onMounted, reactive} from "vue";
 import ThemeBlock from './ThemeBlock.vue'
 import Loading from './Loading.vue'
 import Upload from './Upload.vue'
+import {getAllImg} from "../../api/theme";
+import goPage from "../../utils/goPage";
 import theme from "../../assets/image/8d92efcdb0007a3af8e277731bcb561b.jpg"
 import theme1 from "../../assets/theme/2.jpg"
 import theme2 from "../../assets/theme/3.jpg"
@@ -61,47 +63,76 @@ let dataText = reactive([
     path:theme7
   }
 ])
+let loadDate = ref(false)
+let localDate = ref(false)
+let pageNum = ref(0)
 onMounted(()=>{
+  if (localStorage.getItem('selfImg')) {
+   return  document.getElementById('page')!.style.backgroundImage = `url(${localStorage.getItem('selfImg')})`
+  }
   document.getElementById('page')!.className = localStorage.getItem('theme') || 'theme'
   const BlockEle = document.getElementsByClassName('BlockWarp')[0]
-  BlockEle.addEventListener('scroll',()=>{
+  BlockEle.addEventListener('scroll',async ()=>{
     if(BlockEle.scrollTop+BlockEle.clientHeight+1 >= BlockEle.scrollHeight) {
       if (dataText.length < 10) {
         loadText.value = true
         loading.value = true
-        setTimeout(()=>{
-          dataText.push(
-              {
-                id:8,
-                title: '逢考必过',
-                path: theme8
-              },
-              {
-                id:9,
-                title: '朋克时代',
-                path: theme9
-              },
-              {
-                id:10,
-                title: '虎年大吉',
-                path: theme10
-              }
-          )
-          loadText.value = false
-          loading.value = false
-        },1000)
+          if (loadDate.value === false) {
+            loadDate.value = true
+            dataText.push(
+                {
+                  id:8,
+                  title: '逢考必过',
+                  path: theme8
+                },
+                {
+                  id:9,
+                  title: '朋克时代',
+                  path: theme9
+                },
+                {
+                  id:10,
+                  title: '虎年大吉',
+                  path: theme10
+                }
+            )
+            loadText.value = false
+            loading.value = false
+          }
+      }
+      if (loadDate.value === true && localDate.value === false) {
+        localDate.value = true
+        const res = await getAllImg()
+        if (res.statusCode === 200) {
+         goPage(5,res.data).forEach((item,index)=> localStorage.setItem(`page${index}`, JSON.stringify(item)))
+        }
       }
     }
   })
 })
 
-const ChangeTheme = (num:number) => {
+const ChangeTheme = async (num:number,id:string|number) => {
+  num = num+1
   localStorage.setItem('theme',`theme${num}`)
   loading.value = true
+  if (num > 9) {
+    const res = await getAllImg()
+    let data: any
+    res.data.forEach((item: { url: string | number; }) =>{
+      if (item.url === id) {
+        data = item
+      }
+    })
+    document.getElementById('page')!.style.backgroundImage = `url(${data.url})`
+    localStorage.setItem('selfImg',data.url)
+  }else {
+    document.getElementById('page')!.style.backgroundImage = ''
+    localStorage.setItem('selfImg','')
+  }
   setTimeout(()=>{
     loading.value = false
     document.getElementById('page')!.className = `theme${num}`
-  },1300)
+  },600)
 }
 
 </script>
@@ -128,8 +159,8 @@ const ChangeTheme = (num:number) => {
       </svg>
     </div>
     <div class="BlockWarp" ref="BlockEle">
-      <ThemeBlock @click="ChangeTheme(item.id)" v-for="item in dataText" :src="item.path" :text="item.title"></ThemeBlock>
-      <Upload></Upload>
+      <ThemeBlock @click="ChangeTheme(index,item.id)" v-for="(item,index) in dataText" :src="item.path" :text="item.title"></ThemeBlock>
+      <Upload :dataText="dataText"></Upload>
       <div class="LoadText" v-show="loadText">
         <p>下滑加载更多数据</p>
       </div>
