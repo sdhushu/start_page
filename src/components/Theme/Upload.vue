@@ -19,7 +19,6 @@ const props = defineProps({
     type:Array
   }
 })
-
 const emit = defineEmits(['update:dataText'])
 
 const Upload = async() => {
