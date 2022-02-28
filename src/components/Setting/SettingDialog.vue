@@ -5,13 +5,6 @@ defineProps({
   }
 })
 
-const handleInput = (e:string) => {
-  console.log(e)
-}
-const handleChange =(e:string) => {
-  console.log(e)
-}
-
 </script>
 
 
@@ -19,7 +12,7 @@ const handleChange =(e:string) => {
   <div class="setting_wrap" v-show="settingFlag">
     <div class="colorChoose">
       <h3>颜色选择</h3>
-      <input type="color" @input="handleInput" @change="handleChange">
+      <input type="color">
     </div>
   </div>
 </template>
