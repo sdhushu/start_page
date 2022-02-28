@@ -4,6 +4,7 @@ import Memo from '@/components/Memo.vue'
 import Hyperlink from '@/components/Hyperlink/Hyperlink.vue'
 import Wallpaper from '@/components/Theme/Wallpaper.vue'
 import Search from "@/components/Search.vue";
+import Setting from "@/components/Setting/Setting.vue"
 </script>
 
 <template>
@@ -12,6 +13,7 @@ import Search from "@/components/Search.vue";
     <Memo></Memo>
     <Search></Search>
     <Hyperlink></Hyperlink>
+    <Setting></Setting>
     <Wallpaper></Wallpaper>
   </div>
 </template>
